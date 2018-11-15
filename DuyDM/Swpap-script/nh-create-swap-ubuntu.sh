@@ -1,5 +1,9 @@
 #!/bin/bash
 #Swap Ubuntu 16.04
+#--------Run-------- 
+#	wget https://raw.githubusercontent.com/domanhduy/ghichep/nhanhoadocs/master/DuyDM/Swpap-script/nh-create-swap-ubuntu.sh
+#	bash nh-create-swap-ubuntu.sh
+#	rm -rf nh-create-swap-ubuntu.sh
 
 # Tao swapfile
 echo "Nhap swap can tao VD: 2"
