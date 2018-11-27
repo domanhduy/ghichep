@@ -39,3 +39,4 @@ virt-install \
 --location: Đường dẫn tới file cài đặt
 
 --extra-args: Set tham số cho kernel
+
