@@ -103,8 +103,49 @@ VD:	--boot hd,cdrom,menu=on (Bật order boot và boot từ hard disk trước c
 		--graphics vnc
 		--graphics spice,port=5901,tlsport=5902
 		--graphics none
-		--graphics vnc,password=foobar,port=5910,keymap=ja
+		--graphics vnc,password=xxxxx,port=5910,keymap=ja
 		
+![](../images/thamsovirt/Screenshot_389.png)
+
+--input INPUT: Cài đặt thông tin về thiết bị đầu vào như usb, bàn phím..
+
+		--input tablet
+		--input keyboard,bus=usb
+		
+![](../images/thamsovirt/Screenshot_390.png)
+
+--serial SERIAL: Cấu hình serial VM
+--parallel PARALLEL
+--channel CHANNEL
+--console CONSOLE: Cấu hình kết nối console giữa VM và host.
+
+![](../images/thamsovirt/Screenshot_391.png)
+
+## 5. Virtualization Platform 
+
+-v, --hvm : Full virtualized guest
+
+-p, --paravirt: Paravirtualized guest
+
+--container : Container guest
+
+--virt-type HV_TYPE   Hypervisor name (kvm, qemu, xen, ...)
+
+## 6. Tùy chọn khác
+
+--autostart: Auto bật khi cài xong
+
+--wait WAIT
+
+--noautoconsole: Không tự động console tới VM
+
+--noreboot: Không tự động reboot sau khi cài đặt xong.
+
+
+
+
+
+
 
 		
 
