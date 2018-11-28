@@ -1,4 +1,4 @@
-# Một số tham số virt
+# Một số tham số virt-install
 
 ### Tham số cơ bản của một máy ảo khi khởi tạo
 
