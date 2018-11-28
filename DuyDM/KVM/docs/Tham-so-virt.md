@@ -176,7 +176,7 @@ VD:	--boot hd,cdrom,menu=on (Bật order boot và boot từ hard disk trước c
 
 
 
-
+## Ví dụ
 
 ```sh
 virt-install \
