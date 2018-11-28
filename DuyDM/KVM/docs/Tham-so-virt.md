@@ -30,8 +30,11 @@ virt-install --help
 --memory MEMORY
 ```
 Phân bổ theo đơn vị Megabyte
+
 --memory 1024 (MiB)
+
 --memory 512,maxmemory=1024
+
 --memory 512,maxmemory=1024,hotplugmemorymax=2048,hotplugmemoryslots=2
 
 - Set thông số cho CPU
@@ -41,8 +44,11 @@ Phân bổ theo đơn vị Megabyte
 ```
 
 Số lượng vCPU cấu hình cho VM
+
 --vcpus 5
+
 --vcpus 5,maxcpus=10,cpuset=1-4,6,8
+
 --vcpus sockets=2,cores=4,threads=2
 
 - Set metadata cho VM
@@ -52,6 +58,7 @@ Số lượng vCPU cấu hình cho VM
 ```
 
 --metadata name=duy,title="ddd",uuid=...
+
 --metadata description="demo"
 
 ## 3. Phương thức cài đăt
@@ -115,8 +122,11 @@ VD:	--boot hd,cdrom,menu=on (Bật order boot và boot từ hard disk trước c
 ![](../images/thamsovirt/Screenshot_390.png)
 
 --serial SERIAL: Cấu hình serial VM
+
 --parallel PARALLEL
+
 --channel CHANNEL
+
 --console CONSOLE: Cấu hình kết nối console giữa VM và host.
 
 ![](../images/thamsovirt/Screenshot_391.png)
