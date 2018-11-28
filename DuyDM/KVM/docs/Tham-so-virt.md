@@ -154,45 +154,15 @@ VD:	--boot hd,cdrom,menu=on (Bật order boot và boot từ hard disk trước c
 
 
 
+## 7. Thực hiện một số trường hợp tạo VM bằng virt-install
 
-
-
-		
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Ví dụ
+### 7.1. 
 
 ```sh
 virt-install \
 --name centos7 \
 --ram 2048 \
---disk path=/var/kvm/images/duydmcentos7.img,size=30 \
+--disk path=/var/lib/libvirt/images/duydmcentos7.img,size=30 \
 --network bridge=br0 \
 --graphics vnc,listen=0.0.0.0 \
 --noautoconsole \
@@ -201,27 +171,36 @@ virt-install \
 --location=/var/lib/libvirt/images/CentOS-7-x86_64-Minimal-1804.iso
 ```
 
---name: Đặt tên cho máy ảo
+```
+virt-install --name centos7vm02 --ram 2048 --disk path=/var/lib/libvirt/images/duydmcentos7vm02.img,size=20 --network bridge=br0 --graphics vnc,listen=0.0.0.0 --noautoconsole --os-type=linux --os-variant=centos7.0 --location=/var/lib/libvirt/images/CentOS-7-x86_64-Minimal-1804.iso
+```
 
---ram: Set dung lượng RAM cho máy ảo (MB)
+![](../images/thamsovirt/Screenshot_392.png)
 
---disk path=xxx ,size=xxx
+![](../images/thamsovirt/Screenshot_394.png)
 
-	+ path: Đường dẫn lưu trữ file img máy ảo .img, size: dung lượng disk mount
-	
---vcpus: Set giá trị số vCPU
+Kịch bản: 
 
---os-type: kiểu hệ điều hành (linux, windows)
++ Tạo sẵn một disk type raw có dung lượng 20GB
 
---os-variant: Kiểu của GuestOS . Check bằng lệnh `osinfo-query os`
++ Sử dụng lệnh virt-install tạo một VM có tên là virt-install theo phương thức cài đặt từ file ISO, cấu hình (RAM 2048MB, size disk 20GB), network tạo ra ăn vào interface bridge=br0 qua một interface của host OS ra ngoài internet, VM tạo ra có vào console sử dụng giao thức VNC, cài đăt OS Linux CentOS7. VM sau khi hoàn thành các bước cài đặt tạo ra không được auto start.
 
---network: Dải network mà máy ảo tạo ra sẽ cắm vào.
+### 7.2. 
 
---graphics: Set chế độ đồ họa, đặt là none -> không sử dụng chế độ đồ họa.
+```
+virt-install --name centos7vm03 --ram 2048 --disk path=/var/lib/libvirt/images/duydmcentos7vm03.img,size=20 --network bridge=br0 --os-type=linux --os-variant=centos7.0 --location=/var/lib/libvirt/images/CentOS-7-x86_64-Minimal-1804.iso
+```
+Kịch bản: 
 
---console: Lựa chọn kiểu console
++ Tạo sẵn một disk type raw có dung lượng 20GB
 
---location: Đường dẫn tới file cài đặt
++ Sử dụng lệnh virt-install tạo một VM có tên là virt-install theo phương thức cài đặt từ file ISO, cấu hình (RAM 2048MB, size disk 20GB), network tạo ra ăn vào interface bridge=br0 qua một interface của host OS ra ngoài internet, cài đăt OS Linux CentOS7. VM sau khi hoàn thành các bước cài đặt tạo ra không được auto start.
 
---extra-args: Set tham số cho kernel
+Do không khai báo tham số cho giao thức VNC nên quá sử dụng giao thức Spice cho việc hiển thị VM.
+
+![](../images/thamsovirt/Screenshot_395.png)
+
+
+
+
 
