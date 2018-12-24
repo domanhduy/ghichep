@@ -164,6 +164,8 @@ virt-install \
 
 Hệ điều hành chủ (host operating system): là hệ điều hành chạy trên máy chủ.
 
-Hệ điều hành khách (guest operating system): là hệ điều hành chạy trên một VM
+Hệ điều hành khách (guest operating system): là hệ điều hành chạy trên một VM.
+
+
 	
 	
