@@ -5,7 +5,7 @@ firewall --disabled
 # Install OS instead of upgrade
 install
 # Use HTTP installation media
-url --url="http://10.10.10.30/cblr/links/Centos7-x86_64/"
+url --url="http://10.10.14.34/cblr/links/Centos7-x86_64/"
 
 # Root password
 rootpw --iscrypted $default_password_crypted
