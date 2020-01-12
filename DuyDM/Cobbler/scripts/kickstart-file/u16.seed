@@ -1,0 +1,177 @@
+# Ubuntu Server 16.04 Preseed
+# Usage:
+# This Ubuntu Preseed file is meant to be used with Cobbler. It has been
+# tested only on Cobbler 2.8.2. It is a completely unattended install.
+# References:
+# https://help.ubuntu.com/14.04/installation-guide/example-preseed.txt
+# http://www.claudiokuenzler.com/blog/513/debian-ubuntu-preseed-create-two-volume-groups-same-disk
+
+# Kernel Options
+
+# Use the following option to add additional boot parameters for the
+# installed system (if supported by the bootloader installer).
+# Note: options passed to the installer will be added automatically.
+d-i debian-installer/add-kernel-opts string ksdevice=bootif lang=  biosdevname=0 interface=eth0 text net.ifnames=0 
+
+# Networking
+
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname string $hostname
+
+# Pre Install
+
+# Command Line 1: This is necessary otherwise you will be prompted to umount /dev/sda. See Ubuntu bug #1347726.
+d-i preseed/early_command string \
+      umount /media || true
+
+# Net Image
+
+# Required at least for 12.10+
+d-i live-installer/net-image string http://10.10.14.34/cobbler/links/Ubuntu1604-x86_64/install/filesystem.squashfs
+
+# Localization
+
+d-i debian-installer/locale string en
+d-i debian-installer/country string US
+d-i debian-installer/locale string en_US.UTF-8
+d-i debian-installer/language string en
+
+# Keyboard
+
+# Disable automatic (interactive) keymap detection.
+d-i console-setup/ask_detect boolean false
+d-i console-setup/layoutcode string us
+d-i console-setup/variantcode string
+d-i keyboard-configuration/layoutcode string us
+d-i keyboard-configuration/variantcode string
+
+# Mirror
+
+d-i mirror/country string manual
+d-i mirror/http/proxy string
+d-i mirror/http/hostname string 10.10.14.34
+d-i mirror/http/directory string /cblr/links/Ubuntu1604-x86_64
+
+# d-i mirror/protocol string http
+# d-i mirror/country string manual
+# d-i mirror/http/hostname string archive.ubuntu.com
+# d-i mirror/http/directory string /ubuntu
+# d-i mirror/http/proxy string
+
+
+# Uncomment this if you don't want to use a network mirror.
+# d-i apt-setup/use_mirror boolean true
+
+# Clock and Time Zone
+
+# Controls whether to use NTP to set the clock during the install
+d-i clock-setup/ntp boolean true
+d-i clock-setup/ntp-server string ntp.ubuntu.com
+
+# You may set this to any valid setting for $TZ; see the contents of
+# /usr/share/zoneinfo/ for valid values.
+d-i time/zone string Asia/Ho_Chi_Minh
+# Controls whether or not the hardware clock is set to UTC.
+d-i clock-setup/utc boolean true
+
+# Partitioning
+
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. This can be preseeded away...
+d-i partman-lvm/device_remove_lvm boolean true
+
+# The same applies to pre-existing software RAID array:
+d-i partman-md/device_remove_md boolean true
+
+# And the same goes for the confirmation to write the lvm partitions.
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/method string lvm
+d-i partman-auto/disk string /dev/[sv]da
+
+# For LVM partitioning, you can select how much of the volume group to use
+# for logical volumes.
+d-i partman-auto-lvm/guided_size string max
+
+# Disk Partitioning
+# Use LVM, and wipe out anything that already exists
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+d-i partman-auto/method string lvm
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i grub-installer/grub2_instead_of_grub_legacy boolean true
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/bootdev string /dev/[sv]da
+d-i debian-installer/quiet boolean false
+d-i debian-installer/splash boolean false
+
+# You can choose one of the three predefined partitioning recipes:
+# - atomic: all files in one partition
+# - home:   separate /home partition
+# - multi:  separate /home, /usr, /var, and /tmp partitions
+d-i partman-auto/choose_recipe select atomic
+
+# If you just want to change the default filesystem from ext3 to something
+# else, you can do that without providing a full recipe.
+# d-i partman/default_filesystem string ext4
+
+# Packages
+
+# Package selection
+d-i pkgsel/include string openssh-server wget
+
+# Whether to upgrade packages after debootstrap.
+# Allowed values: none, safe-upgrade, full-upgrade
+d-i pkgsel/upgrade select none
+
+# Policy for applying updates. May be "none" (no automatic updates),
+# "unattended-upgrades" (install security updates automatically), or
+# "landscape" (manage system with Landscape).
+d-i pkgsel/update-policy select none
+
+# Some versions of the installer can report back on what software you have
+# installed, and what software you use. The default is not to report back,
+# but sending reports helps the project determine what software is most
+# popular and include it on CDs.
+popularity-contest popularity-contest/participate boolean false
+
+# Users and Password
+
+# Skip creation of a root account (normal user account will be able to
+# use sudo). The default is false; preseed this to true if you want to set
+# a root password.
+d-i passwd/root-login boolean true
+
+# Alternatively, to skip creation of a normal user account.
+d-i passwd/make-user boolean false
+
+# The installer will warn about weak passwords. If you are sure you know
+# what you're doing and want to override it, uncomment this.
+d-i user-setup/allow-password-weak boolean true
+
+# Root password, either in clear text
+# d-i passwd/root-password password Welcome123
+# d-i passwd/root-password-again password Welcome123
+
+d-i passwd/root-password-crypted password $default_password_crypted
+
+# Post Install
+# Command Line 1: Allow root to SSH.
+# Command Line 2,3 : Edit file sources.list 
+d-i preseed/late_command string \
+sed -i '/PermitRootLogin / s/ .*/ yes/' /target/etc/ssh/sshd_config; \
+sed -i 's/10.10.14.34/vn.archive.ubuntu.com/g' /target/etc/apt/sources.list; \
+sed -i 's|cblr/links/Ubuntu1604-x86_64|ubuntu|g' /target/etc/apt/sources.list; \
+touch /target/root/hello
+# Finish
+
+# Reboot after the install is finished.
+finish-install finish-install/reboot_in_progress note
+
