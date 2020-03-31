@@ -165,11 +165,11 @@ Body Template sẽ là phần body của email khi gửi về.
 
 + Click `Execute Test Notification` để test thông báo trước, 1 trạng thái trả về là Success: Notification was executed  successfully => thành công => `Create`
 
-![](../images/graylog-canh-bao/Screenshot_1007.png
+![](../images/graylog-canh-bao/Screenshot_1007.png)
 
-![](../images/graylog-canh-bao/Screenshot_1008.png
+![](../images/graylog-canh-bao/Screenshot_1008.png)
 
-![](../images/graylog-canh-bao/Screenshot_1010.png
+![](../images/graylog-canh-bao/Screenshot_1010.png)
 
 ### 3. Cấu hình cảnh báo Slack
 
@@ -198,24 +198,24 @@ systemctl status graylog-server
 
 Tạo channel nhận cảnh báo => Truy cập link `https://my.slack.com/services/new/incoming-webhook` lấy Webhook URL.
 
-![](../images/graylog-canh-bao/Screenshot_1011.png
+![](../images/graylog-canh-bao/Screenshot_1011.png)
 
-![](../images/graylog-canh-bao/Screenshot_1012.png
+![](../images/graylog-canh-bao/Screenshot_1012.png)
 
 
 - Tạo cảnh báo trên web GUI graylog
 
 Click `Alerts` -> `Notification` -> `Create Notification`
 
-![](../images/graylog-canh-bao/Screenshot_1013.png
+![](../images/graylog-canh-bao/Screenshot_1013.png)
 
 Nhập các trường thiết lập cảnh báo slack
 
-![](../images/graylog-canh-bao/Screenshot_1014.png
+![](../images/graylog-canh-bao/Screenshot_1014.png)
 
-![](../images/graylog-canh-bao/Screenshot_1015.png
+![](../images/graylog-canh-bao/Screenshot_1015.png)
 
-![](../images/graylog-canh-bao/Screenshot_1016.png
+![](../images/graylog-canh-bao/Screenshot_1016.png)
 
 
 
