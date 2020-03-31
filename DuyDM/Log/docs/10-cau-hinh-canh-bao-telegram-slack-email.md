@@ -265,6 +265,139 @@ Click `Execute Test Notification` để test
 
 ![](../images/graylog-canh-bao/Screenshot_1027.png)
 
+### 5. Thiết lập cảnh báo khi SSH sai
+
+- **Cứ ssh sai thì báo**
+
+- Tạo một event 
+
++ Event Details
+
+![](../images/graylog-canh-bao/Screenshot_1028.png)
+
++ Filter & Aggregation
+
+Search Query điền `Fail`
+
+![](../images/graylog-canh-bao/Screenshot_1029.png)
+
+![](../images/graylog-canh-bao/Screenshot_1030.png)
+
++ Fields 
+
+![](../images/graylog-canh-bao/Screenshot_1031.png)
+
+`Set Value From` => Chọn `Template`
+
+`Template` => Điền ${source.ip}
+
++ Notification
+
+![](../images/graylog-canh-bao/Screenshot_1032.png)
+
+- Kiểm tra
+
+![](../images/graylog-canh-bao/Screenshot_1033.png)
+
+**SSH sai 5 lần trong 5 phút thì báo*
+
+- Tạo Grok patterns với log ssh
+
+```
+Mar 31 16:39:47 centoslog sshd[25712]: Failed password for invalid user duydm from 10.10.34.20 port 60010 ssh2
+```
+
++ Click vào một bản tin ssh => Xem ở phần `message`
+
+![](../images/graylog-canh-bao/Screenshot_1034.png)
+
+![](../images/graylog-canh-bao/Screenshot_1035.png)
+
++ Chọn `Grok pattern` => `Submit`
+
+![](../images/graylog-canh-bao/Screenshot_1036.png)
+
+Đối với bản tin log này, ta sẽ thực hiện Extract ra thành các cột Datetime, Hostname, Acction, User, IP và Port.
+
+Tích chọn `Named captures onl`y để loại bỏ những trường không cần thiết (các trường không được định nghĩa).
+
+![](../images/graylog-canh-bao/Screenshot_1037.png)
+
+Nhập luôn đoạn sau vào ô `Pattern`
+
+```
+%{SYSLOGTIMESTAMP: DateTime} %{DATA:Hostname} sshd\[%{INT}\]: %{WORD: Acction} %{DATA} %{WORD: User_ssh} from %{IPV4: IP_ssh} port %{INT: Port} ssh2
+```
+
+![](../images/graylog-canh-bao/Screenshot_1039.png)
+
+![](../images/graylog-canh-bao/Screenshot_1040.png)
+
+Đặt tên cho `Extractor` => `Create extractor` để khởi tạo Extract cho bản tin này.
+
+![](../images/graylog-canh-bao/Screenshot_1041.png)
+
+Sau khi Extractor, sử dụng ssh đăng nhập vào server để hiển thị log mới và kiểm tra lại các trường đã extract.
+
+![](../images/graylog-canh-bao/Screenshot_1042.png)
+
+
+- Tạo một Alert mới Sử dụng Grok patterns để tạo SSH streams. Sau khi tạo xong sử dụng giá trị Failed của trường action_ssh để lấy các log message gửi về khi có đăng nhập thất bại.
+
+![](../images/graylog-canh-bao/Screenshot_1043.png)
+
++ Event Details
+
+![](../images/graylog-canh-bao/Screenshot_1044.png)
+
++ Filter & Aggregation
+
+![](../images/graylog-canh-bao/Screenshot_1045.png)
+
+Định nghĩa tìm những message có chứa cụm từ Failed trong bản tin. Mỗi 30s tìm 1 lần, nếu trong 5 phút mà tìm được nhiều hơn hoặc bằng 5 lần thì sẽ xuất thông báo (gửi cảnh báo qua mail).
+
+![](../images/graylog-canh-bao/Screenshot_1046.png)
+
++ Fields 
+
+Thêm trường lọc ip_ssh
+
+![](../images/graylog-canh-bao/Screenshot_1047.png)
+
+```
+${source.ip_ssh}
+```
+
+Thêm trường lọc user_ssh
+
+```
+${source.user_ssh}
+```
+
+![](../images/graylog-canh-bao/Screenshot_1048.png)
+
+![](../images/graylog-canh-bao/Screenshot_1049.png)
+
++ Notification
+
+![](../images/graylog-canh-bao/Screenshot_1050.png)
+
+- Kiểm tra
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
