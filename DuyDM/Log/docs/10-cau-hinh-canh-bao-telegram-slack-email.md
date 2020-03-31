@@ -213,9 +213,62 @@ Nhập các trường thiết lập cảnh báo slack
 
 ![](../images/graylog-canh-bao/Screenshot_1014.png)
 
-![](../images/graylog-canh-bao/Screenshot_1015.png)
+![](../images/graylog-canh-bao/Screenshot_1017.png)
 
 ![](../images/graylog-canh-bao/Screenshot_1016.png)
+
+Click `Execute Test Notification` để test
+
+![](../images/graylog-canh-bao/Screenshot_1018.png)
+
+
+### 4. Cấu hình gửi cảnh báo 
+
+-  Cấu hình event cảnh báo 
+
++ Trên web GUI: Tại `Alerts`  chọn `Event Definitions` => `Create Event Definition`
+
+![](../images/graylog-canh-bao/Screenshot_1019.png)
+
++ Đặt tên cho cảnh báo và mô tả ngắn về cảnh báo, chọn mức cảnh báo là `Normal` và `Next`
+
+![](../images/graylog-canh-bao/Screenshot_1020.png)
+
++ Nhập thông tin như trong ảnh => `Next`
+
+![](../images/graylog-canh-bao/Screenshot_1021.png)
+
+```
++ Chọn Condition Type là Filter & Aggregation 
++ Mục Search Query nhập vào truy vấn để lọc ra những bản tin log phù hợp với tiêu chí cảnh báo
++ Chọn Streams là All Messages để search toàn bộ message ( ta có thể tạo 1 streams để lọc 1 bản tin riêng)
++ Đặt thời gian cách mỗi lần tìm kiếm là 1 phút và tìm trong vòng 1 phút cuối cùng. 
+```
+
++ `Event Fields`, là 1 trường bổ sung thông tin về cảnh báo và thêm ngữ cảnh khi cảnh báo => Có thể bỏ qua.
+
+![](../images/graylog-canh-bao/Screenshot_1022.png)
+
++ Tới `Notification` , click chọn `Add Notification` và chọn các cảnh báo về `Telegram`, `Email`, `Slack` đã tạo trước đó.
+
+![](../images/graylog-canh-bao/Screenshot_1023.png)
+
++ `Done` để kết thúc
+
+![](../images/graylog-canh-bao/Screenshot_1024.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
