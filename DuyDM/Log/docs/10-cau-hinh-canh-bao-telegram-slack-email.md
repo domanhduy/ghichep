@@ -45,6 +45,167 @@ Nhập `chat ID`, `Bot Token` và URL địa chỉ Web Interface của graylog-s
 
 - Cài đặt và cấu hình `postfix` trên `graylog-server`
 
++ Kiểm tra và gỡ bỏ `sendmail`
+
+```
+rpm -qa | grep sendmail
+```
+
+```
+yum remove sendmail*
+```
+
++ Cài đặt postfix
+
+```
+yum -y install postfix cyrus-sasl-plain mailx
+```
+
+Đặt postfix như MTA mặc định của hệ thống
+
+```
+alternatives --set mta /usr/sbin/postfix
+```
+
+Nếu xuất hiện trả về output /usr/sbin/postfix has not been configured as an alternative for mta thì thực hiện:
+
+```
+alternatives --set mta /usr/sbin/sendmail.postfix
+```
+
+```
+systemctl restart postfix
+systemctl enable postfix
+```
+
++ Chỉnh sửa config của postfix ở file `/etc/postfix/main.cf`
+
+Thêm vào cuối file đoạn cấu hình
+
+```
+myhostname = hostname.example.com
+
+relayhost = [smtp.gmail.com]:587
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
+```
+
++ Tạo file thông tin xác thực tài khoản mật khẩu SASL `vi /etc/postfix/sasl_passwd` và thêm thông tin:
+
+```
+[smtp.gmail.com]:587 username:password
+```
+
+`username` và `password` sẽ thay bằng tài khoản và mật khẩu của email
+
++ Phân quyền file
+
+```
+postmap /etc/postfix/sasl_passwd
+chown root:postfix /etc/postfix/sasl_passwd*
+chmod 640 /etc/postfix/sasl_passwd*
+systemctl reload postfix
+```
+
+```
+systemctl restart postfix
+systemctl enable postfix
+```
+
+- Kiểm tra sự hoạt động của postfix
+
+```
+echo "Gui mail bang postfix" | mail -s "Mail kiem tra" <địa chỉ email người nhận>
+```
+
+![](../images/graylog-canh-bao/Screenshot_1002.png)
+
+
+- Chỉnh sửa cấu hình trên graylog server, thêm vào cuối file `/etc/graylog/server/server.conf`
+
+
+```
+transport_email_enabled = true
+transport_email_hostname = smtp.gmail.com
+transport_email_port = 587
+transport_email_use_auth = true
+transport_email_auth_username = your_mail@gmail.com
+transport_email_auth_password = your_password
+transport_email_subject_prefix = [graylog]
+transport_email_from_email = your_mail@gmail.com
+transport_email_use_tls = true
+transport_email_use_ssl = false
+```
+
+```
+systemctl restart graylog-server
+```
+
+- Tạo cảnh báo trên web GUI graylog
+
++ Click `Alert` => `Notifications` => `Create Notification`
+
+![](../images/graylog-canh-bao/Screenshot_1003.png)
+
+Nhập các thông tin
+
+![](../images/graylog-canh-bao/Screenshot_1004.png)
+
+![](../images/graylog-canh-bao/Screenshot_1005.png
+
+```
+Mục sender để nhập email gửi đi (người gửi) cũng là email đăng nhập trong graylog-server.  
+Email recipient(s) để nhập email của 1 hoặc 1 nhóm người nhận. 
+Body Template sẽ là phần body của email khi gửi về. 
+```
+
++ Click `Execute Test Notification` để test thông báo trước, 1 trạng thái trả về là Success: Notification was executed  successfully => thành công => `Create`
+
+![](../images/graylog-canh-bao/Screenshot_1007.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
 
 
 
