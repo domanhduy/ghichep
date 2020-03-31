@@ -257,6 +257,18 @@ Click `Execute Test Notification` để test
 
 ![](../images/graylog-canh-bao/Screenshot_1024.png)
 
+- Thực hiện SSH để xem cảnh báo thành công => Cảnh báo gửi qua 3 kênh.
+
+![](../images/graylog-canh-bao/Screenshot_1025.png)
+
+![](../images/graylog-canh-bao/Screenshot_1026.png)
+
+![](../images/graylog-canh-bao/Screenshot_1027.png)
+
+
+
+
+
 
 
 
