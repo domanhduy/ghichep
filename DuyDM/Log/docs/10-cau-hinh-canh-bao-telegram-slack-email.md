@@ -167,8 +167,7 @@ Body Template sẽ là phần body của email khi gửi về.
 
 ![](../images/graylog-canh-bao/Screenshot_1007.png
 
-
-
+![](../images/graylog-canh-bao/Screenshot_1008.png
 
 
 
