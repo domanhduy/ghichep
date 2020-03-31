@@ -169,6 +169,75 @@ Body Template sẽ là phần body của email khi gửi về.
 
 ![](../images/graylog-canh-bao/Screenshot_1008.png
 
+![](../images/graylog-canh-bao/Screenshot_1010.png
+
+### 3. Cấu hình cảnh báo Slack
+
+- Cài đặt plugin trên graylog server
+
+```
+cd /usr/share/graylog-server/plugin/
+```
+
+Lựa chọn phiên bản phù hợp với graylog server để tải về.
+
+```
+https://github.com/graylog-labs/graylog-plugin-slack/releases
+```
+
+```
+wget https://github.com/graylog-labs/graylog-plugin-slack/releases/download/3.1.0/graylog-plugin-slack-3.1.0.jar
+```
+
+```
+systemctl restart graylog-server
+systemctl status graylog-server
+```
+
+- Chuẩn bị Webhook URL
+
+Tạo channel nhận cảnh báo => Truy cập link `https://my.slack.com/services/new/incoming-webhook` lấy Webhook URL.
+
+![](../images/graylog-canh-bao/Screenshot_1011.png
+
+![](../images/graylog-canh-bao/Screenshot_1012.png
+
+
+- Tạo cảnh báo trên web GUI graylog
+
+Click `Alerts` -> `Notification` -> `Create Notification`
+
+![](../images/graylog-canh-bao/Screenshot_1013.png
+
+Nhập các trường thiết lập cảnh báo slack
+
+![](../images/graylog-canh-bao/Screenshot_1014.png
+
+![](../images/graylog-canh-bao/Screenshot_1015.png
+
+![](../images/graylog-canh-bao/Screenshot_1016.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
