@@ -267,15 +267,15 @@ Click `Execute Test Notification` để test
 
 ### 5. Thiết lập cảnh báo khi SSH sai
 
-- **Cứ ssh sai thì báo**
+- ** Cứ ssh sai thì báo **
 
 - Tạo một event 
 
-+ Event Details
++Event Details
 
 ![](../images/graylog-canh-bao/Screenshot_1028.png)
 
-+ Filter & Aggregation
++Filter & Aggregation
 
 Search Query điền `Fail`
 
@@ -283,7 +283,7 @@ Search Query điền `Fail`
 
 ![](../images/graylog-canh-bao/Screenshot_1030.png)
 
-+ Fields 
++Fields 
 
 ![](../images/graylog-canh-bao/Screenshot_1031.png)
 
@@ -291,7 +291,7 @@ Search Query điền `Fail`
 
 `Template` => Điền ${source.ip}
 
-+ Notification
++Notification
 
 ![](../images/graylog-canh-bao/Screenshot_1032.png)
 
@@ -299,7 +299,7 @@ Search Query điền `Fail`
 
 ![](../images/graylog-canh-bao/Screenshot_1033.png)
 
-**SSH sai 5 lần trong 5 phút thì báo*
+** SSH sai 5 lần trong 5 phút thì báo **
 
 - Tạo Grok patterns với log ssh
 
@@ -307,13 +307,13 @@ Search Query điền `Fail`
 Mar 31 16:39:47 centoslog sshd[25712]: Failed password for invalid user duydm from 10.10.34.20 port 60010 ssh2
 ```
 
-+ Click vào một bản tin ssh => Xem ở phần `message`
++Click vào một bản tin ssh => Xem ở phần `message`
 
 ![](../images/graylog-canh-bao/Screenshot_1034.png)
 
 ![](../images/graylog-canh-bao/Screenshot_1035.png)
 
-+ Chọn `Grok pattern` => `Submit`
++Chọn `Grok pattern` => `Submit`
 
 ![](../images/graylog-canh-bao/Screenshot_1036.png)
 
@@ -343,7 +343,7 @@ Sau khi Extractor, sử dụng ssh đăng nhập vào server để hiển thị 
 
 - Sử dụng Grok patterns để tạo SSH streams. 
 
-+ Streams từ `field` message
++Streams từ `field` message
 
 ![](../images/graylog-canh-bao/Screenshot_1056.png)
 
@@ -379,11 +379,11 @@ SSH sai hoặc đúng sẽ lọc ra được các bản tin đó.
 
 ![](../images/graylog-canh-bao/Screenshot_1043.png)
 
-+ Event Details
++Event Details
 
 ![](../images/graylog-canh-bao/Screenshot_1044.png)
 
-+ Filter & Aggregation
++Filter & Aggregation
 
 ![](../images/graylog-canh-bao/Screenshot_1068.png)
 
@@ -391,7 +391,7 @@ SSH sai hoặc đúng sẽ lọc ra được các bản tin đó.
 
 ![](../images/graylog-canh-bao/Screenshot_1046.png)
 
-+ Fields 
++Fields 
 
 Thêm trường lọc ip_ssh
 
@@ -411,7 +411,7 @@ ${source.user_ssh}
 
 ![](../images/graylog-canh-bao/Screenshot_1049.png)
 
-+ Notification
++Notification
 
 ![](../images/graylog-canh-bao/Screenshot_1050.png)
 
