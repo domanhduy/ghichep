@@ -1,5 +1,14 @@
 ## Ghi chép cấu hình cảnh báo log quan telegram, email, slack
 
+### Mục lục
+
+[1. Telegram](#tele)<br>
+[2. Email](#email)<br>
+[3. Cấu hình cảnh báo Slack](#slack)<br>
+[4. Cấu hình gửi cảnh báo](#event)<br>
+[5. Thiết lập cảnh báo khi SSH sai](#sshfail)<br>
+
+<a name="tele"></a>
 ### 1. Telegram
 
 - Tạo bot
@@ -41,6 +50,7 @@ Nhập `chat ID`, `Bot Token` và URL địa chỉ Web Interface của graylog-s
 
 ![](../images/graylog-canh-bao/Screenshot_1001.png)
 
+<a name="email"></a>
 ### 2. Email
 
 - Cài đặt và cấu hình `postfix` trên `graylog-server`
@@ -171,6 +181,7 @@ Body Template sẽ là phần body của email khi gửi về.
 
 ![](../images/graylog-canh-bao/Screenshot_1010.png)
 
+<a name="slack"></a>
 ### 3. Cấu hình cảnh báo Slack
 
 - Cài đặt plugin trên graylog server
@@ -221,7 +232,7 @@ Click `Execute Test Notification` để test
 
 ![](../images/graylog-canh-bao/Screenshot_1018.png)
 
-
+<a name="event"></a>
 ### 4. Cấu hình gửi cảnh báo 
 
 -  Cấu hình event cảnh báo 
@@ -265,6 +276,7 @@ Click `Execute Test Notification` để test
 
 ![](../images/graylog-canh-bao/Screenshot_1027.png)
 
+<a name="sshfail"></a>
 ### 5. Thiết lập cảnh báo khi SSH sai
 
 - **Cứ ssh sai thì báo**
@@ -423,6 +435,6 @@ ${source.user_ssh}
 
 ![](../images/graylog-canh-bao/Screenshot_1071.png)
 
-
+![](../images/graylog-canh-bao/Screenshot_1072.png)
 
 
