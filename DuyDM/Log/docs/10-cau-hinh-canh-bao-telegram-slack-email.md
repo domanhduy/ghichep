@@ -373,6 +373,8 @@ SSH sai hoặc đúng sẽ lọc ra được các bản tin đó.
 
 ![](../images/graylog-canh-bao/Screenshot_1065.png)
 
+![](../images/graylog-canh-bao/Screenshot_1066.png)
+
 - Sau khi tạo xong SSH streams sử dụng giá trị Failed của trường action_ssh để lấy các log message gửi về khi có đăng nhập thất bại. Tạo event.
 
 ![](../images/graylog-canh-bao/Screenshot_1043.png)
@@ -383,7 +385,7 @@ SSH sai hoặc đúng sẽ lọc ra được các bản tin đó.
 
 + Filter & Aggregation
 
-![](../images/graylog-canh-bao/Screenshot_1045.png)
+![](../images/graylog-canh-bao/Screenshot_1068.png)
 
 Định nghĩa tìm những message có chứa cụm từ Failed trong bản tin. Mỗi 30s tìm 1 lần, nếu trong 5 phút mà tìm được nhiều hơn hoặc bằng 5 lần thì sẽ xuất thông báo (gửi cảnh báo qua mail).
 
@@ -415,7 +417,7 @@ ${source.user_ssh}
 
 - Kiểm tra
 
-
+![](../images/graylog-canh-bao/Screenshot_1069.png)
 
 
 
