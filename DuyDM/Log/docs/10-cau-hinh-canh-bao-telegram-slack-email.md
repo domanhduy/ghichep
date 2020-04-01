@@ -357,6 +357,8 @@ Sau khi chọn Save trong Streams sẽ xuất hiện thêm SSH streams. Click `M
 
 ![](../images/graylog-canh-bao/Screenshot_1060.png)
 
+Làm tương tự thêm như các `rules` dưới
+
 ```
 Accepted password for .+ from .+
 Failed password for .+ from .+
