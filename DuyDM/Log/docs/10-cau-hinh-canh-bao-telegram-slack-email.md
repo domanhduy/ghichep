@@ -341,8 +341,39 @@ Sau khi Extractor, sử dụng ssh đăng nhập vào server để hiển thị 
 
 ![](../images/graylog-canh-bao/Screenshot_1042.png)
 
+- Sử dụng Grok patterns để tạo SSH streams. 
 
-- Tạo một Alert mới Sử dụng Grok patterns để tạo SSH streams. Sau khi tạo xong sử dụng giá trị Failed của trường action_ssh để lấy các log message gửi về khi có đăng nhập thất bại.
++ Streams từ `field` message
+
+![](../images/graylog-canh-bao/Screenshot_1056.png)
+
+![](../images/graylog-canh-bao/Screenshot_1057.png)
+
+Sau khi chọn Save trong Streams sẽ xuất hiện thêm SSH streams. Click `Manage Rules` để thiết lập các `Rules`.
+
+![](../images/graylog-canh-bao/Screenshot_1058.png)
+
+![](../images/graylog-canh-bao/Screenshot_1059.png)
+
+![](../images/graylog-canh-bao/Screenshot_1060.png)
+
+```
+Accepted password for .+ from .+
+Failed password for .+ from .+
+authentication failure; .+
+```
+
+![](../images/graylog-canh-bao/Screenshot_1061.png)
+
+![](../images/graylog-canh-bao/Screenshot_1064.png)
+
+![](../images/graylog-canh-bao/Screenshot_1063.png)
+
+SSH sai hoặc đúng sẽ lọc ra được các bản tin đó.
+
+![](../images/graylog-canh-bao/Screenshot_1065.png)
+
+- Sau khi tạo xong SSH streams sử dụng giá trị Failed của trường action_ssh để lấy các log message gửi về khi có đăng nhập thất bại. Tạo event.
 
 ![](../images/graylog-canh-bao/Screenshot_1043.png)
 
