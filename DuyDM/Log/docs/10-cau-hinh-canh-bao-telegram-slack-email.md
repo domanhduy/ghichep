@@ -299,7 +299,7 @@ Search Query điền `Fail`
 
 ![](../images/graylog-canh-bao/Screenshot_1033.png)
 
-** SSH sai 5 lần trong 5 phút thì báo **
+**SSH sai 5 lần trong 5 phút thì báo**
 
 - Tạo Grok patterns với log ssh
 
