@@ -267,7 +267,7 @@ Click `Execute Test Notification` để test
 
 ### 5. Thiết lập cảnh báo khi SSH sai
 
-- ** Cứ ssh sai thì báo **
+- **Cứ ssh sai thì báo**
 
 - Tạo một event 
 
