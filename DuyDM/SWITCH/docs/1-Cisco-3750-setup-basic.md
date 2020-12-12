@@ -155,6 +155,7 @@ Enter configuration commands, one per line.  End with CNTL/Z.
 SWITCH01(config)#interface vlan 40
 SWITCH01(config-if)#ip address 172.16.4.220 255.255.255.0
 SWITCH01(config-if)#ip default-gateway 172.16.10.1
+SWITCH01(config-if)#no shutdown
 SWITCH01(config)#exit
 ```
 

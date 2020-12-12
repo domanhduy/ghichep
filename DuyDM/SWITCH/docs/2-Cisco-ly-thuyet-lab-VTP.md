@@ -199,7 +199,7 @@ VTP là giao thức cho phép các switch trong cùng một domain có thể đ�
 <a name="labvtp"></a>
 ## II. LAB về VTP
 
-### 2.1. Mô hình VTP server - VTP mở rộng (default)
+### 2.1. Mô hình switch VTP server - switch VTP mở rộng (default)
 
 ![](../images/lab-vtp/Screenshot_936.png)
 
@@ -306,7 +306,7 @@ Lúc này SWITCH02 không thể tạo VLAN là đồng bộ lại cho SWITCH01 m
 
 Vậy có thể mở rộng SWITCH theo cách server - client các SW có cùng domain, revision switch mở rộng < switch gốc.
 
-### 2.2. Mô hình VTP server - VTP mở rộng (vtp mode client)
+### 2.2. Mô hình switch VTP server - switch VTP mở rộng (vtp mode client)
 
 - Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
 
@@ -327,34 +327,55 @@ Revision: 0
 VLAN: Chưa có.
 ```
 
-=> Kết quả: Sau khi thông đường trunk giữa 2 SW (chỉ cần cấu hình phía đầu VTP server nếu phía up switch nhận port để mode auto) tất cả thông tin VLAN từ SWITCH01 (gốc) được cập nhật xuống SWITCH02 (switch mở rộng) một cách tự động.
+=> Kết quả: Với sự chuẩn bị như trên sau khi thông đường trunk giữa 2 SW (chỉ cần cấu hình phía đầu VTP server nếu phía up switch nhận port để mode auto) tất cả thông tin VLAN từ SWITCH01 (gốc) được cập nhật xuống SWITCH02 (switch mở rộng) một cách tự động.
+
+### 2.3. Mô hình switch VTP server - switch VTP mở rộng mode server (có cùng VTP domain)
+
+- Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
+
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 2
+```
+
+SWITCH01 hoạt động bình thường, yêu cầu mở rộng thêm SWITCH02 (switch mới).
+
+- SWITCH02 mới:
+
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 0
+VLAN: Chưa có.
+```
+
+=> Kết quả: Với sự chuẩn bị như trên sau khi thông đường trunk giữa 2 SW (chỉ cần cấu hình phía đầu VTP server nếu phía up switch nhận port để mode auto) tất cả thông tin VLAN từ SWITCH01 (gốc) được cập nhật xuống SWITCH02 (switch mở rộng) một cách tự động. Lúc này các tham số
+
+### 2.4. Mô hình switch VTP server - switch VTP mở rộng mode server (có cùng VTP domain, revision > revision switch gốc)
+
+Trường hợp này mô phỏng trường hợp lab switch tạo các VLAN làm tăng tham số version lên khi mang đi up (đã xóa hết các VLAN ở switch mới) vô tình cấu hình chung mode server, cùng domain và revision > revision switch gốc.
 
 
+- Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
 
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 2
+```
 
+SWITCH01 hoạt động bình thường, yêu cầu mở rộng thêm SWITCH02 (switch mới).
 
+- SWITCH02 mới:
 
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 6 (> 2 revision switch gốc)
+VLAN: Chưa có.
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-COM4-SW2
-COM3-SW1
-
-
-
-
-
-
-
+=> Kết quả: Với sự chuẩn bị như trên sau khi thông đường trunk giữa 2 SW thì phía SWITCH01 switch gốc bị clear hết VLAN ở SWITCH01 đi do lúc này revision SWITCH02 > SWITCH01 mà cùng mode server, cùng domain. Cấu hình vtp lúc này của SWITCH01 bị đồng bộ theo SWITCH02.
 
 
