@@ -75,6 +75,10 @@ SWITCH01(config)#
 
 ```
 SWITCH01(config)#enable password Cisco
+```
+Hoặc cấu hình password dạng mã hóa trong config.
+
+```
 SWITCH01(config)#enable secret Cisco
 ```
 

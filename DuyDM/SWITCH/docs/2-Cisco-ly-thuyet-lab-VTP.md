@@ -13,6 +13,8 @@
 
 ### 1.1. Tổng quan về VTP
 
+VTP - VLAN Trunking Protocol là giao thức độc quyền của Cisco hoạt động ở lớp 2 của mô hình OSI.
+
 - VTP cấu hình trên thiết bị switch cho phéo người quản lý mạng cấu hình VLAN và chuyển các VLAN đó tới các thiết bị switch khác trong mạng. 
 
 - Switch có thể được cấu hình của một VTP server, VTP client.
@@ -131,7 +133,7 @@ VTP Frame Details
 
 `VTP Revision Number`: Các Switch trong cùng Domain dựa trên Revision number để xác định xem switch có cấu hình mới hơn. Switch có Revision number thấp hơn sẽ học VLAN từ Switch có Revision number cao hơn. 
 
-Chú ý: khi chuyển Switch Server thì Revision sẽ bị chuyển về 0 và sẽ học các Revision number cao hơn (có thể học từ Client).
+Chú ý: khi chuyển Switch Server domain thì Revision sẽ bị chuyển về 0 và sẽ học các Revision number cao hơn (có thể học từ Client).
 
 Số này là một số 32 bit cho biết mức độ sửa đổi của VTP frame, mặc định là 0. Mỗi khi thêm hoặc xóa VLAN, sửa đổi tham số này sẽ tăng lên.
 
@@ -174,18 +176,30 @@ Khi một yêu cầu quảng báo được gửi đến một VTP server trong c
 
 - VTP Modes
 
+![](../images/lab-vtp/Screenshot_947.png)
 
+![](../images/lab-vtp/Screenshot_948.png)
 
+`Tạo bản tin VTP`: Bất cứ khi nào người quản trị tạo, xóa hay sửa một VLAN và muốn thông tin này quảng bá đến các Switch khác trong cùng một vùng, người quản trị phải cấu hình nó trên Switch đang làm việc ở chế độ Server. Do đó chế độ Server là một nguồn tạo bản tin VTP. Ngoài ra ở chế độ Client cũng có khả năng là nguồn của một bản tin VTP mặc dù nó không thể tạo, xóa hay sửa một VLAN. Đó là khi một Switch mới gia nhập vào hệ thống nhưng nó đã mang sẵn cấu hình VTP của vùng khác, với cùng VTP domain và chỉ số revision lớn hơn tất cả trong hệ thống của chúng ta.
 
+Đó là lý do đôi lúc ta thấy làm việc ở chế độ Client cũng có khả năng là nguồn tạo bản tin VTP. Một Switch hoạt động ở chế độ Transparent hoàn toàn có thể tạo VLAN nhưng nó sẽ không gửi đi bản tin quảng bá VLAN mới đó. Hay nói cách khác nó chỉ hoạt động độc lập, do đó nó không phải là nguồn tạo một bản tin VTP.
 
+`Lắng nghe bản tin VTP`: Chỉ có những Switch hoạt động ở chế độ Client hay Server mới lắng nghe bản tin VTP từ những nguồn khác trong hệ thống. Khi một Switch nhận một thông tin quảng bá đến nó từ địa chỉ multicast 01-00-0C-CC-CC-CC nó sẽ tiến hành xử lý gói tin đó. Nếu thông số revision lớn hơn của nó, khi đó quá trình đồng bộ sảy ra, Switch sẽ cập nhật thông tin nó đang có với thông tin trong bản tin vừa nhận. Nếu thông số revision của bản tin vừa nhận nhỏ hơn của Swith thì nó sẽ hủy bản tin và gửi lại bản tin khác có thông số revision lớn hơn để cập nhật cho các thiết bị khác trong mạng.
 
+Một Switch hoạt động ở chế độ Transparent không lắng nghe bản tin VTP quảng bá trong hệ thống. Nó vẫn nhận bản tin quảng bá nhưng không xử lý, nó chỉ có nhiệm vụ chuyển tiếp bản tin đó ra liên kết trunk.
 
+`Tạo, xóa, sửa VLAN`: Thuộc tính này có trên Switch hoạt động ở chế độ Server và Transparent. Tuy nhiên bản chất của nó là khác nhau. Khi người quản trị tạo, xóa hay sửa VLAN trên một Server, ngay lập tức thông tin quảng bá sẽ được gửi đến địa chỉ multicast 01-00-0C-CC-CC-CC với thông số revision tăng lên một. Quá trình cập nhật trong hệ thống với việc tăng thêm một VLAN mới sảy ra ngay sau đó.
 
+Việc này cũng có thể thực hiện trên Switch hoạt động ở chế độ Transparent, người quản trị dễ dàng tạo, xóa hay sửa thông tin một VLAN, nhưng bản tin VTP quảng bá không được tạo ra, không được gửi đi trong hệ thống do đó những Switch khác không cập nhật những thông tin mới chỉnh sửa. Switch hoạt động ở chế độ Transparent làm việc một cách cục bộ không ảnh hưởng đến toàn bộ hệ thống, nó chỉ có nhiệm vụ chuyển tiếp bản tin VTP quảng bá để hệ thống thông suốt liên tục. Thuộc tính này không có ở một Switch hoạt động ở chế độ Client, nó không thể tạo, xóa hay sửa thông tin một VLAN.
+
+- VTP Pruning: 
+
+VTP là giao thức cho phép các switch trong cùng một domain có thể đồng bộ tất cả các thông tin VLAN. Nhưng ngoài các thông tin VLAN, các thông tin unicast và broadcast trong VLAN được đẩy ra tất cả các VLAN khác.
 
 <a name="labvtp"></a>
 ## II. LAB về VTP
 
-### 2.1. Mô hình VTP server - VTP client
+### 2.1. Mô hình VTP server - VTP mở rộng (default)
 
 ![](../images/lab-vtp/Screenshot_936.png)
 
@@ -201,6 +215,119 @@ Configuration Revision            : 1
 
 ![](../images/lab-vtp/Screenshot_937.png)
 
+- Bài lab: SWITCH01 cấu hình chắc chắn là VTP có cấu hình mặc định.
+
+```
++ Mode VTP server
++ VLAN10, VLAN11, VLAN12, VLAN40 (MNGT)
++ VTP Version: 1
++ Port Gi1/0/1 là port mở rộng SW trunking.
+```
+
+Mục đích: Cắm thêm 1 SWITCH02 vào mạng, SWITCH02 VTP thiết lập default => Kết quả sẽ như thế nào khi cấu hình VTP ở SWITCH01 xong.
+
+**Bước 1**: Cấu hình VTP mode server trên SWITCH01
+
+- Cấu hình VTP mode
+
+```
+vtp domain nhanhoalabsw1
+vtp mode server
+```
+Kết quả
+
+```
+SWITCH01#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+SWITCH01(config)#vtp domain nhanhoalabsw1
+Changing VTP domain name from NULL to nhanhoalabsw1
+SWITCH01(config)#vtp mode server
+Device mode already VTP Server for VLANS.
+```
+
+- Tạo VLAN
+
+```
+SWITCH01#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+SWITCH01(config)#vlan 10
+SWITCH01(config-vlan)#name VLAN10
+SWITCH01(config-vlan)#exit
+SWITCH01(config)#vlan 11
+SWITCH01(config-vlan)#name VLAN11
+SWITCH01(config-vlan)#exit
+SWITCH01(config)#vlan 12
+SWITCH01(config-vlan)#name VLAN12
+SWITCH01(config-vlan)#
+```
+
+- Cấu hình trunking cho đường mở rộng VLAN
+
+```
+SWITCH01#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+SWITCH01(config)#interface Gi1/0/1
+SWITCH01(config-if)#description ->uplink
+SWITCH01(config-if)#switchport trunk encapsulation dot1q
+SWITCH01(config-if)#switchport mode trunk
+SWITCH01(config-if)#no shutdown
+SWITCH01(config-if)#exit
+```
+
+**Bước 2:** Kiểm tra trên SWITCH02
+
+Với cấu hình VTP default của SWITCH02 `mode server`, `version 1`, `Revision 0`, `vtp domain trống`, `port uplink SWITCH02 không cấu hình gì` khi cấu hình xong VTP mode server ở SWITCH01 thì kết quả của SWITCH02 sẽ như sau:
+
++ Domain sẽ tự động nhận VTP domain ở SWITCH01 áp xuống.
+
++ Các VLAN sẽ tự động nhận các VLAN ở SWITCH01 áp xuống.
+
++ Revision ở 2 SW bằng nhau.
+
+Lúc này thao tác thêm, sửa, xóa VLAN ở 2 SWITCH để đồng bộ cấu hình sang SWITCH còn lại.
+
+**Bước 3:** Mở rộng
+
+Có thể thực hiện chuyển mode của SWITCH02 về client để quản lý VTP áp xuống từ phái server.
+
+```
+SWITCH02#configure terminal
+SWITCH02(config)#vtp mode client
+Setting device to VTP Client mode for VLANS.
+```
+
+Lúc này SWITCH02 không thể tạo VLAN là đồng bộ lại cho SWITCH01 mà chỉ có lắng nghe và được áp các thay đổi từ SWITCH01 xuống.
+
+
+=> Cùng domain thì sẽ các SW trong domain sẽ tác động qua nhau tùy vào cấu hình (theo đúng lý thuyết của VTP).
+
+=> Khác domain thì cho dù switch mở rộng có ở mode server, revision cao hơn cũng không thể tác động ngược trở lại được.
+
+
+Vậy có thể mở rộng SWITCH theo cách server - client các SW có cùng domain, revision switch mở rộng < switch gốc.
+
+### 2.2. Mô hình VTP server - VTP mở rộng (vtp mode client)
+
+- Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
+
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 2
+```
+
+SWITCH01 hoạt động bình thường, yêu cầu mở rộng thêm SWITCH02 (switch mới).
+
+- SWITCH02 mới:
+
+```
+VTP mode: Client
+VTP domain: nhanhoalabsw1
+Revision: 0
+VLAN: Chưa có.
+```
+
+=> Kết quả: Sau khi thông đường trunk giữa 2 SW (chỉ cần cấu hình phía đầu VTP server nếu phía up switch nhận port để mode auto) tất cả thông tin VLAN từ SWITCH01 (gốc) được cập nhật xuống SWITCH02 (switch mở rộng) một cách tự động.
 
 
 
@@ -210,6 +337,18 @@ Configuration Revision            : 1
 
 
 
+
+
+
+
+
+
+
+
+
+
+COM4-SW2
+COM3-SW1
 
 
 
