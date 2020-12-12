@@ -26,7 +26,7 @@ Switch#reload
 
 Xác nhận `confirm` khi có yêu cầu. Reload SW xong là SW về default
 
-![](../images/cisco-3750-setup-basic/Screenshot_932.png
+![](../images/cisco-3750-setup-basic/Screenshot_932.png)
 
 <a name="coban"></a>
 ## 2. Thiết lập cơ bản
@@ -57,7 +57,7 @@ Switch#show clock
 Switch#clock set 15:08:00 11 December 2021
 ```
 
-![](../images/cisco-3750-setup-basic/Screenshot_933.png
+![](../images/cisco-3750-setup-basic/Screenshot_933.png)
 
 
 - Thiết lập hostname
@@ -117,4 +117,56 @@ SWITCH01#copy running-config startup-config
 ```
 SWITCH01#reload
 ```
+
+- Thiết lập IP để telnet
+
+Về Switch không có cấu hình IP cho port interface mà chỉ có cấu hình cho IP cho interface vlan
+
+Để có thể cấu hình IP Telnet: Cắm dây mạng vào port định set IP SSH, tạo 1 VLAN chuyển cho MNGT, access VLANxxx vào port đó, cấu hình IP cho interface VLANxxx
+
+```
+SWITCH01#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+SWITCH01(config)#vlan 40
+SWITCH01(config-vlan)#name MNGT
+```
+
+```
+SWITCH01#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+SWITCH01(config)#interface Gi1/0/48
+
+SWITCH01(config-if)#description ->telnet
+SWITCH01(config-if)#no shutdown
+SWITCH01(config-if)#switchport mode access
+SWITCH01(config-if)#switchport access vlan 40
+SWITCH01(config)#exit
+```
+
+![](../images/cisco-3750-setup-basic/Screenshot_934.png)
+
+```
+SWITCH01#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+SWITCH01(config)#interface vlan 40
+SWITCH01(config-if)#ip address 172.16.4.220 255.255.255.0
+SWITCH01(config-if)#ip default-gateway 172.16.10.1
+SWITCH01(config)#exit
+```
+
+`default-gateway` mục đích để từ SW có tể ra được internet (SW với mục đích local có thể không cần kết nối).
+
+![](../images/cisco-3750-setup-basic/Screenshot_935.png)
+
+
+172.16.4.220
+172.16.4.221
+
+
+
+
+
+
+
+
 
