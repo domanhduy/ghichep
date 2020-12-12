@@ -159,14 +159,3 @@ SWITCH01(config)#exit
 ![](../images/cisco-3750-setup-basic/Screenshot_935.png)
 
 
-172.16.4.220
-172.16.4.221
-
-
-
-
-
-
-
-
-
