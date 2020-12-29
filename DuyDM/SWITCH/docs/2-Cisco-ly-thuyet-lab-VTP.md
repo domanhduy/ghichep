@@ -306,6 +306,8 @@ Lúc này SWITCH02 không thể tạo VLAN là đồng bộ lại cho SWITCH01 m
 
 Vậy có thể mở rộng SWITCH theo cách server - client các SW có cùng domain, revision switch mở rộng < switch gốc.
 
+Lưu ý: Nên cấu hình trunk trước mới cắm dây uplink.
+
 ### 2.2. Mô hình switch VTP server - switch VTP mở rộng (vtp mode client)
 
 - Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
@@ -329,6 +331,8 @@ VLAN: Chưa có.
 
 => Kết quả: Với sự chuẩn bị như trên sau khi thông đường trunk giữa 2 SW (chỉ cần cấu hình phía đầu VTP server nếu phía up switch nhận port để mode auto) tất cả thông tin VLAN từ SWITCH01 (gốc) được cập nhật xuống SWITCH02 (switch mở rộng) một cách tự động.
 
+Lưu ý: Nên cấu hình trunk trước mới cắm dây uplink.
+
 ### 2.3. Mô hình switch VTP server - switch VTP mở rộng mode server (có cùng VTP domain)
 
 - Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
@@ -351,6 +355,8 @@ VLAN: Chưa có.
 ```
 
 => Kết quả: Với sự chuẩn bị như trên sau khi thông đường trunk giữa 2 SW (chỉ cần cấu hình phía đầu VTP server nếu phía up switch nhận port để mode auto) tất cả thông tin VLAN từ SWITCH01 (gốc) được cập nhật xuống SWITCH02 (switch mở rộng) một cách tự động. Lúc này các tham số
+
+Lưu ý: Nên cấu hình trunk trước mới cắm dây uplink.
 
 ### 2.4. Mô hình switch VTP server - switch VTP mở rộng mode server (có cùng VTP domain, revision > revision switch gốc)
 
@@ -377,5 +383,135 @@ VLAN: Chưa có.
 ```
 
 => Kết quả: Với sự chuẩn bị như trên sau khi thông đường trunk giữa 2 SW thì phía SWITCH01 switch gốc bị clear hết VLAN ở SWITCH01 đi do lúc này revision SWITCH02 > SWITCH01 mà cùng mode server, cùng domain. Cấu hình vtp lúc này của SWITCH01 bị đồng bộ theo SWITCH02.
+
+Lưu ý: Nên cấu hình trunk trước mới cắm dây uplink.
+
+### 2.5. Mô hình switch VTP server - switch VTP mode Transparent - switch VTP mode client
+
+![](../images/lab-vtp/Screenshot_949.png)
+
+Bài lab mô tả thao tác mở rộng SW trong TH mô hình đang chạy có switch VTP server - switch VTP mode Transparent và mở rộng thêm switch thứ 3 (mode client)
+
+- Có SWITCH01 có sẵn các VLAN 10, VLAN 11 đang hoạt động:
+
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 2
+```
+
+- Có SWITCH02 mặc định và có cấu hình như ở dưới:
+
+```
+VTP mode: Transparent
+VTP domain: nhanhoalabsw1
+Revision: 0
+```
+
+- Đứng ở switch Transparent cấu hình trunk ở interface uplink
+
+Sau khi cấu hình xong trunk trên switch Transparent không có VLAN nào thay đổi.
+
+- Cắm dây mạng uplink giữa 2 SW server - Transparent
+
+- Cấu hình SWITCH03:
+
+```
+VTP mode: Transparent
+VTP domain: nhanhoalabsw1
+Revision: 0
+```
+
+- Đứng ở switch client cấu hình trunk ở interface uplink
+
+
+- Cắm dây mạng uplink giữa 2 SW Transparent - Client
+
+Các VLAN 10, VLAN 11 sẽ được nhả xuống client, các thao tác thêm sửa xóa VLAN từ switch mode server đều được đẩy xuống client.
+
+
+Nếu đặt IP interface VLAN10 ở switch mode server và switch mode client sẽ không ping thông => Phải tạo tay VLAN có tag ID là 10 ở sw Transparent thì lúc ấy sẽ thông interface VLAN. 
+
+
+## III. LAB về VTP đối với cặp switch Stack
+
+- SWITCH01 được đấu stack bởi 2 SW Cisco lại có VLAN 10, VLAN 11 đang hoạt động:
+
+```
+VTP mode: Server
+VTP domain: nhanhoalabsw1
+Revision: 2
+```
+
+Tạo PO uplink 
+
+
+- SWITCH02 mới được đấu stack bởi 2 SW Cisco:
+
+```
+VTP mode: client
+VTP domain: nhanhoalabsw1
+Revision: 0
+VLAN: Chưa có.
+```
+
+- Sau khi cắm dây mạng vật lý VLAN từ switch mode server sẽ nhả VLAN xuống switch client, 2 đường uplink ở switch client sẽ auto nhận mode trunk.
+
+
+=> Để mở rộng theo mô hình stack này nên cấu hình trunk cho PO và các port ở 2 đầu SW sau đó cắm dây. (trunk interface 2 đầu).
+
+
+- Cấu hình port-channel cho switch cissco
+
+```
++ Tạo PO mới
+
+SW(config)#interface port-channel 48
+SW(config-if)#description ->uplink
+SW(config-if)#no shutdown
+SW(config-if)#switchport trunk encapsulation dot1q
+SW(config-if)#switchport mode trunk
+SW(config-if)#spanning-tree bpdufilter enable
+SW-Provider01-E6-U45(config-if)#
+
++ Config interface
+
+SW(config)#interface Gi1/0/1
+SW(config-if)#description ->uplink
+SW(config-if)#no shutdown
+SW(config-if)#switchport trunk encapsulation dot1q
+SW(config-if)#switchport mode trunk
+SW(config-if)#channel-group 48 mode active
+
+
+SW(config)#interface Gi2/0/1
+SW(config-if)#description ->uplink
+SW(config-if)#no shutdown
+SW(config-if)#switchport trunk encapsulation dot1q
+SW(config-if)#switchport mode trunk
+SW(config-if)#channel-group 48 mode active
+```
+
+
+
+
+
+
+Rack
+- Trên SW01 - COM4
+- Dưới SW02 - COM5
+- Bàn SW03
+
+172.16.4.223 - STACK PROVIDER E8 - COM4 - Ban
+172.16.4.224 - STACK VLAN E8 - COM5 - RACK
+
+
+Create trigger prototype
+
+
+
+
+
+
 
 

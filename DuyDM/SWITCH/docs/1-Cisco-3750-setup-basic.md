@@ -54,7 +54,7 @@ Switch#show clock
 ```
 
 ```
-Switch#clock set 15:08:00 11 December 2021
+Switch#clock set 15:08:00 11 December 2020
 ```
 
 ![](../images/cisco-3750-setup-basic/Screenshot_933.png)
