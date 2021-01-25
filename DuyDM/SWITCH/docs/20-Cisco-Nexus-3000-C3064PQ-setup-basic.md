@@ -118,6 +118,10 @@ https://cnttshop.vn/blogs/cisco/vpc-la-gi
 
 https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-and-configuration-guides-list.html
 
+- VTP
+
+https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus7000/sw/layer2/config/cisco_nexus7000_layer2switching_config_guide_8x/config_vtp.pdf
+
 
 
 
