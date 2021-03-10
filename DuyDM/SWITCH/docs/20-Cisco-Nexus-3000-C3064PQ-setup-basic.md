@@ -190,7 +190,11 @@ https://docs.netapp.com/ontap-9/index.jsp?topic=%2Fcom.netapp.doc.dot-mcc-inst-c
 
 https://thinksystem.lenovofiles.com/storage/help/index.jsp?topic=%2FMCC-MetroCluster_IP_Installation_and_Configuration_Guide%2FBFE8D886-FC64-40B6-8DBD-32F0EE1FD6C7_.html
 
+- Lệnh show
 
+```
+show queuing interface ethernet 1/1
+```
 
 ## Tham khảo
 
