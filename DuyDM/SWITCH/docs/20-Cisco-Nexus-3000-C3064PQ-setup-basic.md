@@ -3,6 +3,8 @@
 ### Mục lục
 
 [1. Thiết lập cơ bản](#coban)<br>
+[2. Backup restore](#backup)<br>
+
 
 <a name="default"></a>
 ## 1. Thiết lập cơ bản
@@ -195,6 +197,118 @@ https://thinksystem.lenovofiles.com/storage/help/index.jsp?topic=%2FMCC-MetroClu
 ```
 show queuing interface ethernet 1/1
 ```
+
+<a name="backup"></a>
+## 2. Backup restore config SW
+
+**Backup**
+
+- Dựng 1 ftp server trên Linux CentOS7. Tham khảo <a href="https://github.com/domanhduy/ghichep/blob/master/DuyDM/SWITCH/docs/3-Backup-va-Restore-SW-Cisco.md" target="_blank">tại đây</a>!.
+
+- Phía SW cấu hình IP MNGT qua vrf management
+
+![](../images/cisco-nexus-3064-setup-basic/Screenshot_1094.png)
+
+![](../images/cisco-nexus-3064-setup-basic/Screenshot_1095.png)
+
+- Backup config
+
+```
+SW01# copy running-config sftp://userftp:nhap_pass@172.16.4.223
+```
+
+```
+SW01# copy running-config sftp://userftp:nhap_pass@172.16.4.223
+Enter destination filename: [SW01-running-config] SW01-running-config-01042021
+Enter vrf (If no input, current vrf 'default' is considered): management
+
+userftp@172.16.4.223's password:
+Connected to 172.16.4.223.
+sftp> put  /var/tmp/vsh/SW01-running-config-01042021  SW01-running-config-01042021
+Uploading /var/tmp/vsh/SW01-running-config-01042021 to /home/userftp/SW01-running-config-01042021
+/var/tmp/vsh/SW01-running-config-01042021                                                                                                                        100% 9328     9.1KB/s   00:00
+sftp> exit
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+SW01#
+```
+
+![](../images/cisco-nexus-3064-setup-basic/Screenshot_1096.png)
+
+![](../images/cisco-nexus-3064-setup-basic/Screenshot_1097.png)
+
+**Restore**
+
+```
+copy sftp://172.16.4.223/home/userftp/SW01-running-config-01042021  running-config
+```
+
+```
+SW01# copy sftp://172.16.4.223/home/userftp/SW01-running-config-01042021  running-config
+Enter vrf (If no input, current vrf 'default' is considered): management
+Enter username: userftp
+
+userftp@172.16.4.223's password:
+sftp> progress
+Progress meter enabled
+sftp> get   /home/userftp/SW01-running-config-01042021  /var/tmp/vsh/running-config
+/home/userftp/SW01-running-config-01042021                                                                                                                       100% 9328     9.1KB/s   00:00
+sftp> exit
+Warning: When Cisco determines that a fault or defect can be traced to the use of third-party transceivers installed by a customer or reseller, then, at Cisco's discretion, Cisco may withhold support under warranty or a Cisco support program. In the course of providing support for a Cisco networking product Cisco may require that the end user install Cisco transceivers if Cisco determines that removing third-party parts will assist Cisco in diagnosing the cause of a support issue.
+Resilient Hashing Mode un-configured successfully.
+New Port-channels created will have default hashing turned on.
+Existing port-channels will continue to be in resilient hashing mode until the system is reloaded.
+Disabling resilient hashing on port-channels will start buffer boost for subsequent port-channels as RH and Buffer Boost are mutually exclusive
+Warning: This command will take effect only after saving the configuration and reload! Port configurations could get lost when port mode is changed! We suggest you clean up the impacted interfaces config and redo them after boot up!
+ERROR: The command is not supported on this platform.
+
+Warning: DME successfully enabled
+Warning: Please copy running-config to startup-config and reload the switch to apply changes.
+Performing image verification and compatibility check, please wait....
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+SW01#
+
+```
+
+```
+SW01# copy running-config startup-config
+[########################################] 100%
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+SW01#
+```
+
+```
+SW01# reload
+This command will reboot the system. (y/n)?  [n] y
+```
+
++ Restore thẳng vào startup-config
+
+```
+SW01# copy sftp://172.16.4.223/home/userftp/SW01-running-config-01042021  startup-config
+Enter vrf (If no input, current vrf 'default' is considered): management
+Enter username: userftp
+
+userftp@172.16.4.223's password:
+sftp> progress
+Progress meter enabled
+sftp> get   /home/userftp/SW01-running-config-01042021  /tmp/system.cfg
+/home/userftp/SW01-running-config-01042021                                                                                                                       100% 9328     9.1KB/s   00:00
+sftp> exit
+Copying...
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+SW01#
+```
+
+```
+SW01# reload
+This command will reboot the system. (y/n)?  [n] y
+```
+
+Sau khi SW boot lên phải chờ 1 tý.
 
 ## Tham khảo
 
