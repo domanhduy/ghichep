@@ -300,6 +300,34 @@ No sequence-number
 Sequence-number ACE-mới
 ```
 
+### 1.8. IPv6 ACLs
+
+![](../images/acl/Screenshot_1523.png)
+
+Mặc dù IPv4 và IPv6 ACL rất giống nhau, nhưng có khác biệt đáng kể giữa chúng:
+
++ Áp dụng ACL IPv6: IPv6 sử dụng lệnh ipv6 traffic-filter để thực hiện chức năng tương tự cho các giao diện IPv6.
+
++ Không có Wildcard Masks: prefix-length được sử dụng để chỉ ra lượng địa chỉ nguồn hoặc địa chỉ đích IPv6 nên được khớp với nhau.
+
+<a name="thuchanh"></a>
+## 2. Thực hành
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### Tham khảo
