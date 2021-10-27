@@ -1,7 +1,12 @@
 ## Ghi chép các bước cấu hình backup và restore config switch cisco
 
+### Mục lục
 
-##I, Sử dụng trên TFPT windows
+[1. Trên windows](#windows)<br>
+[2. Trên Linux](#linux)<br>
+
+<a name="windows"></a>
+## I, Sử dụng trên TFPT windows
 
 ## 1. Cài đặt FTP server trên Windows server 2012
 
@@ -186,8 +191,8 @@ CMC-SW-VLAN-E7-U42#
 
 ```
 
-
-##II, Sử dụng trên FPT Linux CentOS
+<a name="linux"></a>
+## II, Sử dụng trên FPT Linux CentOS
 
 ## 2. Cài đặt FTP server trên Linux CentOS
 
