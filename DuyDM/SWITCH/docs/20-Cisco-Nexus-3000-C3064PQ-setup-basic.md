@@ -146,8 +146,11 @@ Chọn mode cần xử lý.
 ```
 NX(config)# hardware profile portmode 48x10g+4x40g
 Warning: This command will take effect only after saving the configuration and reload! Port configurations could get lost when port mode is changed! We suggest you clean up the impacted interfaces config and redo them after boot up!
-NX(config)#
+NX(config)#exit
+NX#copy running-config startup-config
 ```
+
+
 
 Reload lại switch
 
