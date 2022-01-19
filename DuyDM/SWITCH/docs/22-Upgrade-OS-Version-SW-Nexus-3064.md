@@ -151,7 +151,7 @@ SW01(config)#
 
 - 6 upgate Bios
 
-````
+```
 SW01(config)#install all nxos bootflash:nxos.7.0.3.I7.8_compact.bin
 - Do you want to continue with the installation (Y/N): [n] Y
 #note:Do not shutdown or restart the system during this process
