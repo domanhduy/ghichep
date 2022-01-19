@@ -307,7 +307,7 @@ SW01#
 
 
 
-**Lưu ý: **
+**Lưu ý:**
 
 - Upgrade từ OS thấp lên cao thì không mất config. Chuyển OS từ cao xuống thấp thì bị mất config.
 
