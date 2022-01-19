@@ -411,7 +411,9 @@ Thực hiện up lên OS 4.5 như trên.
 
 
 copy ftp://172.16.2.100/n3000-uk9-kickstart.6.0.2.U6.6.bin bootflash:
+
 management
+
 copy ftp://172.16.2.100/n3000-uk9.6.0.2.U6.6.bin bootflash:
 
 
