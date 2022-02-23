@@ -167,9 +167,9 @@ Code
 ```
 SW(config)#policy-map nam_policy_map_tuy_dat
 SW(config-pmap)#class name_class_map_da_tao_o_tren
-SW(config-pmap-c)#police 100000000 10000 exceed-action drop
+SW(config-pmap-c)#police 100000000 1000000 exceed-action drop
 ```
-Tạo policy-map kết hợp với class-map, cấu hình để tăng giảm băng thông, 100000000: Băng thông giới hạn bps, 10000: Tốc độ burst Bytes
+Tạo policy-map kết hợp với class-map, cấu hình để tăng giảm băng thông, 100000000: Băng thông giới hạn bps, 1000000: Tốc độ burst Bytes (nên để 1000000)
 
 `100000000`: Bits per second (B/s) - 100000000 Bit/s =  100 MBit/s
 
