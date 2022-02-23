@@ -245,15 +245,15 @@ Upload - Outgoing (nload server) tương ứng với Incoming nếu đứng ở 
 
 + Lúc không áp dụng policy
 
-![](../qos/Screenshot_1958.png)
+![](../images/qos/Screenshot_1958.png)
 
-![](../qos/Screenshot_1959.png)
+![](../images/qos/Screenshot_1959.png)
 
-![](../qos/Screenshot_1960.png)
+![](../images/qos/Screenshot_1960.png)
 
 + Lúc không áp dụng policy 100Mbps
 
-![](../qos/Screenshot_1961.png)
+![](../images/qos/Screenshot_1961.png)
 
 => Sử dụng policy map kiểm soát được băng thông chiều vào của port switch.
 
