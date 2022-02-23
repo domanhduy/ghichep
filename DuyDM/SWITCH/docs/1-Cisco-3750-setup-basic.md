@@ -59,6 +59,10 @@ Switch#clock set 15:08:00 11 December 2020
 
 ![](../images/cisco-3750-setup-basic/Screenshot_933.png)
 
+```
+(config)#clock timezone GMT +7 7
+```
+
 
 - Thiết lập hostname
 
