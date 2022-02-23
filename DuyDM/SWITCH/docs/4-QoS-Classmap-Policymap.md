@@ -80,12 +80,12 @@ Sw-Thangnv-lab#
 ```
 Sw-Thangnv-lab(config)#policy-map Limit_100MBps
 Sw-Thangnv-lab(config-pmap)#class Limit_100MBps
-Sw-Thangnv-lab(config-pmap-c)#police 100000000 10000 exceed-action drop
+Sw-Thangnv-lab(config-pmap-c)#police 100000000 1000000 exceed-action drop
 ```
 
 `100000000`: Bits per second (B/s) - 100000000 Bit/s =  100 MBit/s
 
-`10000`: Normal burst bytes, 10000 Bit/s bằng 0,01 MBit/s
+`1000000`: Normal burst bytes, 10000 Bit/s bằng 0,01 MBit/s
 
 Burst refers to a period when user data is sent at irregular intervals, usually due to a high-bandwidth transmission over a short time.
 Burst dùng để chỉ một khoảng thời gian khi dữ liệu người dùng được gửi theo chu kỳ không đều, thường là do truyền một lượng băng thông cao trong một thời gian ngắn.
