@@ -87,6 +87,7 @@ Sw-Thangnv-lab(config-pmap-c)#police 100000000 1000000 exceed-action drop
 
 `1000000`: Normal burst bytes, 10000 Bit/s bằng 0,01 MBit/s
 
+
 Burst refers to a period when user data is sent at irregular intervals, usually due to a high-bandwidth transmission over a short time.
 Burst dùng để chỉ một khoảng thời gian khi dữ liệu người dùng được gửi theo chu kỳ không đều, thường là do truyền một lượng băng thông cao trong một thời gian ngắn.
 
