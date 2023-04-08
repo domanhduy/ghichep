@@ -44,7 +44,7 @@ Kubernetes là một cluster để chạy ứng dụng
 Kubernetes là một Container Orchestrator cho các ứng dụng cloud-native
 ```
 
-<a name="k8s"></a>
+<a name="canthiet"></a>
 ## 2. Sự cần thiết của K8s
 
 - Nhìn lại quá trình triển khai ứng dụng theo các cách từ xưa đến nay để thấy sự cần thiết của K8s 
@@ -133,12 +133,6 @@ Kubernetes khởi động lại các containers bị lỗi, thay thế các cont
 - Quản lý cấu hình và bảo mật
 
 Kubernetes cho phép lưu trữ và quản lý các thông tin nhạy cảm như: password, OAuth token và SSH key, có thể triển khai và cập nhật lại secret và cấu hình ứng dụng mà không cần build lại các container image và không để lộ secret trong cấu hình stack.
-
-
-
-
-
-
 
 
 ### Tham khảo
