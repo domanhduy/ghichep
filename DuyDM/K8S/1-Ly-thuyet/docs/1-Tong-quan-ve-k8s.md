@@ -56,7 +56,7 @@ Tên gọi `Kubernetes` có nguồn gốc từ tiếng Hy Lạp, có ý nghĩa l
 
 Các container tương tự như VM, nhưng chúng có tính cô lập để chia sẻ OS giữa các ứng dụng. Nên container nhẹ (lightweight). Một container có hệ thống tệp (filesystem), CPU, bộ nhớ, process space.... Có thể chuyển các container đi các nền tảng tương thích khác.
 
-Lợi ích của container:
+**Lợi ích của container**:
 
 ```
 + Tạo mới và triển khai ứng dụng nhanh chóng: gia tăng tính dễ dàng và hiệu quả của việc tạo các container image so với việc sử dụng VM image.
