@@ -3,7 +3,8 @@
 ### Mục lục
 
 [1. Kiến trúc Kubernetes](#kientruc)<br>
-
+[2. Sự hoạt động giữa các thành phần trong K8s](#suhoatdong)<br>
+[3. Kiến trúc Kubernetes HA](#k8sha)<br>
 
 <a name="kientruc"></a>
 ## 1. Kiến trúc Kubernetes
@@ -23,6 +24,7 @@ Node (Woker Node)
 
 ![](../images/2-kien-truc-k8s/kien-truc.png)
 
+![](../images/2-kien-truc-k8s/Screenshot_18.png)
 
 Thông thường sẽ cài đặt sao cho hai thành phần này nằm độc lập nhau.
 
@@ -76,6 +78,50 @@ Các thành phần chính trên master node bao gồm:
 + Etcd được cài trên node master và lưu tất cả các thông tin trong Cluser.
 + Etcd sử dụng port 2380 để listening từng request và port 2379 để client gửi request tới.
 ```
+
+### Node - Worker Node
+
+Node - Worker Node có vai trò làm môi trường chạy các container ứng dụng người dùng.
+
+![](../images/2-kien-truc-k8s/worker.png)
+
+
+Worker Node có 3 thành cơ bản:
+
+`Container runtime`: Môi trường chạy Container, công nghệ thường thấy nhất là Docker. Thực hiện pull image, start và stop container theo chỉ thị từ kubelet
+
+`kubelet`: Nhận lệnh từ control plane (Master Node), để tạo mới, thao tác tắt bật các Container ứng dụng theo yêu cầu người dùng. Thực hiện tương tác với container runtime để quản trị vòng đời ứng dụng chạy trong container.
+
+`kube-proxy`: Cho phép người dùng truy cập vào các ứng dụng đang chạy trong Kubernetes Cluster (trong môi trường Container). Tương tác với iptables để thiết lập các chính sách truy cập.
+
+
+<a name="suhoatdong"></a>
+## 2. Sự hoạt động giữa các thành phần trong K8s
+
+![](../images/2-kien-truc-k8s/master-worker.png)
+
+![](../images/2-kien-truc-k8s/Architecture.png)
+
+Xem hình minh họa để ý chiều các mũi tên
+
+API server chính là nơi giao tiếp giữa các thành phần, gõ lệnh tương tác qua CLI (Command Line Interface) hay qua RESTful API thì cũng phải qua API server.
+
+Từ Worker node, thì kube-proxy và Kubelet gọi tới API server để báo cáo trạng thái cũng như nhận các chỉ thị cần thực hiện.
+
+Bên trong Master node thì chỉ có API server mới có thể tương tác với etcd. 
+
+Có khi nào API server chủ động kết nối tới các Worker node không? Ở hình trên không có luồng mũi tên trỏ từ Master node sang Worker node, nhưng câu trả lời là có. 
+
+Có trường hợp Master node kết nối sang Worker node,k ết nối từ API server sang Worker node thực hiện khi gửi yêu cầu kết nối tới các container (khi lấy log ở các stdout, hay thực hiện truy cập vào console của container. API server sẽ kết nối tới Kubelet để thực hiện các truy cập vào container)
+
+<a name="k8sha"></a>
+## 3. Kiến trúc Kubernetes HA
+
+![](../images/2-kien-truc-k8s/hak8s.png)
+
+### Tham khảo
+
+https://kubernetes.io/docs/concepts/overview/components/
 
 
 
