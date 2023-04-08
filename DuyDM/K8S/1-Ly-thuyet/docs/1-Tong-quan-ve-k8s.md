@@ -32,6 +32,7 @@ Tên gọi `Kubernetes` có nguồn gốc từ tiếng Hy Lạp, có ý nghĩa l
 
 - Triển khai ứng dụng kiểu truyền thống: 
 
+```
 + Ứng dụng được triển khai trên các máy chủ (máy chủ vậy lý) độc lập, các thành phần của ứng dụng có thể triển khai chung ở một máy chủ hoặc riêng rẽ ở các máy chủ.
 
 + Không có sự phân chia rõ ràng tài nguyên cho các thành phần ứng dụng
@@ -39,9 +40,11 @@ Tên gọi `Kubernetes` có nguồn gốc từ tiếng Hy Lạp, có ý nghĩa l
 + Không có cách nào để xác định ranh giới tài nguyên cho các ứng dụng trong máy chủ vật lý và điều này gây ra sự cố phân bổ tài nguyên. Có thể phải triển khai nhiều máy chủ.
 
 + Khó quản lý, mở rộng một cách nhanh chóng.
+```
 
 - Triển khai ứng dụng kiểu ảo hóa:
 
+```
 + Đã có sự thay đổi trong cách thức triển khai 
 
 + Ảo hóa chạy nhiều trên CPU của một máy chủ vật lý, cho phép các ứng dụng được cô lập giữa các VM và có tính bảo mật vì thông tin của một ứng dụng không thể được truy cập tự do bởi một ứng dụng khác.
@@ -51,6 +54,7 @@ Tên gọi `Kubernetes` có nguồn gốc từ tiếng Hy Lạp, có ý nghĩa l
 + Có thể triển khai ảo hóa dưới dạng cluster để cấp phát tài nguyên.
 
 + Mỗi VM tất cả các thành phần, bao gồm cả hệ điều hành bên trên phần cứng được ảo hóa. 
+```
 
 - Triển khai ứng dụng kiểu container:
 
