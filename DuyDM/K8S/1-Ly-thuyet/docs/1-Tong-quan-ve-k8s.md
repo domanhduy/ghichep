@@ -10,7 +10,7 @@
 <a name="k8s"></a>
 ## 1. Kubernetes là gì?
 
-![](../images/1-tong-quan-k8s/kuberneteslogo.jpg)
+![](../images/1-tong-quan-k8s/kuberneteslogo.png)
 
 `Kubernetes` là có thể hiểu là một giải pháp open source giúp system admin có thể triển khai - phát triển - public - scale - update ứng dụng dưới dạng container dễ dàng và có tính tự động.
 
