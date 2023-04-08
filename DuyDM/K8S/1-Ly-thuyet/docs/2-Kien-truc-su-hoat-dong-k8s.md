@@ -146,6 +146,10 @@ Ghi lại các time-series metrics chung về các container trong central datab
 
 Lưu container logs vào central log store với giao diện search/browsing.
 
+-Pod network
+
+Đây là thành phần xử lý về network trong cụm K8S cluster. Pod network đảm bảo cho các container có thể truyền thông được với nhau. Có nhiều lựa chọn về pod network có thể lựa chọn flannet.
+
 <a name="suhoatdong"></a>
 ## 2. Sự hoạt động giữa các thành phần trong K8s
 
