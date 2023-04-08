@@ -5,8 +5,6 @@
 [1. Kubernetes là gì?](#k8s)<br>
 [2. Sự cần thiết của K8s](#canthiet)<br>
 
-
-
 <a name="k8s"></a>
 ## 1. Kubernetes là gì?
 
@@ -21,6 +19,30 @@
 `Kubernetes` có thể được triển khai trên một hoặc nhiều máy vật lý, máy ảo hoặc cả máy vật lý và máy ảo để tạo thành Kubernetes cluster.
 
 Tên gọi `Kubernetes` có nguồn gốc từ tiếng Hy Lạp, có ý nghĩa là người lái tàu hoặc hoa tiêu. Google mở mã nguồn Kubernetes từ năm 2014. Kubernetes xây dựng dựa trên một thập kỷ rưỡi kinh nghiệm mà Google có được với việc vận hành một khối lượng lớn workload trong thực tế, kết hợp với các ý tưởng và thực tiễn tốt nhất từ cộng đồng.
+
+Năm 2013 sự ra đời của Docker là một sự kiến lớn. Việc Docker ra đời đã làm cho việc sử dụng container dễ dàng hơn nhiều và nền tảng để K8s xuất hiện.
+
+Từ các sản phẩm in-house (tự cung cấp nội bộ) là Borg, Omega phục vụ việc điều phối container cho các ứng dụng nội bộ, Google đã tạo ra một nền tảng mới có tên là Kubernetes, sau này tặng cho Cloud Native Computing Foundation (CNCF) như một dự án nguồn mở tuân theo giấy phép Apache 2.0 vào năm 2014. Kubernetes trở thành một công nghệ quan trọng và là xu hướng.
+
+![](../images/1-tong-quan-k8s/Borg-Omega-Kubernetes.png)
+
+
+**Mối quan hệ giữa Docker và Kubernetes**
+
+Docker và Kubernetes xuất hiện ở những thời điểm và hoàn cảnh khác nhau nhưng chúng có sự bộ trợ cho nhau.
+
+Sử dụng Docker để đóng gói ứng dụng vào chạy trong container, sau đó sử dụng Kubernetes để điều khiến các container trên môi trường production. 
+
+Kubernetes cluster bao gồm nhiều node chạy ứng dụng production, trên mỗi node cài đặt Docker như một container runtime để thực hiện việc start, stop các container. Sau đó Kubernetes sẽ quyết định xem nên khởi tạo container hay tăng, giảm các container trên node nào.
+
+![](../images/1-tong-quan-k8s/Kubernetes-cluster.png)
+
+Tóm gọn:
+
+```
+Kubernetes là một cluster để chạy ứng dụng
+Kubernetes là một Container Orchestrator cho các ứng dụng cloud-native
+```
 
 <a name="k8s"></a>
 ## 2. Sự cần thiết của K8s
@@ -82,6 +104,37 @@ Các container tương tự như VM, nhưng chúng có tính cô lập để chi
 + Cô lập các tài nguyên, sử dụng tài nguyên: hiệu quả
 ```
 
+**- Sự cần thiết của K8s**
+
+Container là một cách tốt để đóng gói và chạy các ứng dụng. Môi trường production cần quản lý các container chạy các ứng dụng và đảm bảo rằng không có khoảng thời gian downtime. Ví dụ, nếu một container bị tắt đi, một container khác cần phải khởi động lên. Điều này sẽ dễ dàng hơn nếu được xử lý bởi một hệ thống container K8s.
+
+Đó là cách Kubernetes xuất hiện. Kubernetes cung cấp một framework để chạy các hệ phân tán một cách mạnh mẽ. Nó đảm nhiệm việc nhân rộng và chuyển đổi dự phòng cho ứng dụng, cung cấp các mẫu deployment và hơn thế nữa.
+
+- Service discovery và cân bằng tải
+
+Kubernetes có thể expose một container sử dụng DNS hoặc địa chỉ IP của riêng nó. Nếu lượng traffic truy cập đến một container cao, Kubernetes có thể cân bằng tải và phân phối lưu lượng mạng (network traffic) để việc triển khai được ổn định.
+
+- Điều phối bộ nhớ
+
+Kubernetes cho phép tự động mount một hệ thống lưu trữ mà bạn chọn, như local storages, public cloud providers...
+
+- Tự động rollouts và rollbacks
+
+Có thể mô tả trạng thái mong muốn cho các container được triển khai dùng Kubernetes và nó có thể thay đổi trạng thái thực tế sang trạng thái mong muốn với tần suất được kiểm soát. Ví dụ, bạn có thể tự động hoá Kubernetes để tạo mới các container cho việc triển khai của bạn, xoá các container hiện có và áp dụng tất cả các resource của chúng vào container mới.
+
+- Đóng gói tự động
+
+Cung cấp cho Kubernetes một cluster gồm các node mà nó có thể sử dụng để chạy các tác vụ được đóng gói (containerized task). Cho Kubernetes biết mỗi container cần bao nhiêu CPU và bộ nhớ (RAM). Kubernetes có thể điều phối các container đến các node để tận dụng tốt nhất các resource..
+
+- Tự phục hồi
+
+Kubernetes khởi động lại các containers bị lỗi, thay thế các container, xoá các container không phản hồi lại cấu hình health check do người dùng xác định và không cho các client biết đến chúng cho đến khi chúng sẵn sàng hoạt động.
+
+- Quản lý cấu hình và bảo mật
+
+Kubernetes cho phép lưu trữ và quản lý các thông tin nhạy cảm như: password, OAuth token và SSH key, có thể triển khai và cập nhật lại secret và cấu hình ứng dụng mà không cần build lại các container image và không để lộ secret trong cấu hình stack.
+
+
 
 
 
@@ -91,4 +144,8 @@ Các container tương tự như VM, nhưng chúng có tính cô lập để chi
 ### Tham khảo
 
 https://kubernetes.io/vi/docs/concepts/overview/what-is-kubernetes/
+
+https://hocchudong.com/kubernetes-phan-1-kubernetes-la-gi/
+
+https://github.com/lacoski/kubernetes-note/blob/main/docs/1-introduction-k8s.md
 
