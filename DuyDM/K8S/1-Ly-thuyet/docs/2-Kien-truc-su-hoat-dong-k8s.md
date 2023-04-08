@@ -54,20 +54,35 @@ Các thành phần chính trên master node bao gồm:
 + Thao tác thông qua API REST
 + Hoạt động trên port 6443 (HTTPS) và 8080 (HTTP).
 + Nằm tại node Master.
++ kube-apiserver được thiết kế mở rộng theo chiều ngang, nó mở rộng bằng cách triển khai trên nhiều instances. Có thể chạy một số instances của kube-apiserver và cân băng traffic giữa các instances.
 ```
 
 - Controller manager (kube-controller-manager): Thực hiện các công tác điều khiển vòng lặp (control loop). Có rất nhiều thành phần điều khiển nhỏ hơn bên trong như Replication controller, Node controller, Endpoints controller... 
 
 ```
-+ Thành phần quản lý Kubernetes Cluster
++ Thành phần quản lý Kubernetes Cluster, chạy và điều khiển các process.
 + Xử lý các yêu cầu người dùng hoặc ứng dụng khác, bảo đảm các tiến trình, service chạy trong Kubernetes chạy chính xác
++ Về mặt logic, mỗi controller là một quy trình riêng biệt, nhưng để giảm độ phức tạp, tất cả chúng được compile thành một single binary và chạy trong một single process.
 + Sử dụng Port 10252
 ```
+
+Một số kiểu controllers 
+
+```
++ Node controller: Chịu trách nhiệm thông báo và phản hồi khi các node ngừng hoạt động.
+
++ Job controller: Theo dõi các Job objects thực hiện task một lần saou đó tạo Pods chạy các task cho đến khi hoàn thành.
+
++ EndpointSlice controller: Cung cấp liên kết giữa Services and Pods
+
++ ServiceAccount controller: Tạo default ServiceAccounts cho namespaces mới.
+``` 
 
 - Schedule (kube-scheduler): Thực hiện việc lập lịch để chạy ứng dụng trên các Worker node.
 
 ```
-+ Điều phối các Pods tới các Woker Node
++ Điều phối các Pods tới các Woker Node. Một pod đươc tạo ra và không assign cho node nào thì kube-scheduler sẽ tính toán chọn một node để chúng chạy trên đó.
++ Các yếu tố quyết định tới scheduling: individual và collective resource requirements, hardware/software/policy constraints, affinity và anti-affinity specifications, data locality, inter-workload interference, và deadlines.
 + Sử dụng Port 10251
 ```
 
@@ -77,6 +92,7 @@ Các thành phần chính trên master node bao gồm:
 + Database phân tán, sử dụng ghi dữ liệu theo cơ chế key/value trong K8S cluster.
 + Etcd được cài trên node master và lưu tất cả các thông tin trong Cluser.
 + Etcd sử dụng port 2380 để listening từng request và port 2379 để client gửi request tới.
++ Nếu cụm Kubernetes sử dụng etcd làm store thì phải có phương pháp và kế hoạch sao lưu chúng.
 ```
 
 ### Node - Worker Node
@@ -88,12 +104,47 @@ Node - Worker Node có vai trò làm môi trường chạy các container ứng 
 
 Worker Node có 3 thành cơ bản:
 
-`Container runtime`: Môi trường chạy Container, công nghệ thường thấy nhất là Docker. Thực hiện pull image, start và stop container theo chỉ thị từ kubelet
+- `Container runtime`: Môi trường chạy Container, công nghệ thường thấy nhất là Docker. Thực hiện pull image, start và stop container theo chỉ thị từ kubelet
 
-`kubelet`: Nhận lệnh từ control plane (Master Node), để tạo mới, thao tác tắt bật các Container ứng dụng theo yêu cầu người dùng. Thực hiện tương tác với container runtime để quản trị vòng đời ứng dụng chạy trong container.
+- `kubelet`: Nhận lệnh từ control plane (Master Node), để tạo mới, thao tác tắt bật các Container ứng dụng theo yêu cầu người dùng. Thực hiện tương tác với container runtime để quản trị vòng đời ứng dụng chạy trong container.
 
-`kube-proxy`: Cho phép người dùng truy cập vào các ứng dụng đang chạy trong Kubernetes Cluster (trong môi trường Container). Tương tác với iptables để thiết lập các chính sách truy cập.
+Mỗi một agent chạy ở mỗi node trong cluster. Nó chắc chắn containers đang chạy trong một Pod.
 
+kubelet nhận một PodSpecs được cung cấp theo các cơ chế khác nhau và chắc chắn containers đang trong PodSpecs đó là running và healthy. The kubelet không quản lý containers mà không được create bởi Kubernetes.
+
+- `kube-proxy`: Cho phép người dùng truy cập vào các ứng dụng đang chạy trong Kubernetes Cluster (trong môi trường Container). Tương tác với iptables để thiết lập các chính sách truy cập.
+
+kube-proxy là một network proxy chạy trong mỗi node ở cluster. 
+
+kube-proxy duy trì network rules trên nodes. Các network rules cho phép network giao tiếp tới các Pods từ network sessions bên trong hoặc outside cluster.
+
+kube-proxy sử dụng operating system packet filtering layer nếu có và available. Kube-proxy tự forwards traffic.
+
+### Một số thành phần khác
+
+- Addons
+
+Addons sử dụng Kubernetes resources (DaemonSet, Deployment...) để triển khai cluster features.
+
+- DNS
+
+Mặc dù không phải là thành phần bắt buộc nhưng tất cả Kubernetes clusters nen có cluster DNS
+
+Cluster DNS là một DNS server, ngoài các máy chủ DNS khác trong môi trường nó phục vụ DNS records choKubernetes services.
+
+Containers cho Kubernetes start sẽ tự động đưa DNS server này vào để tìm kiếm DNS.
+
+- Web UI (Dashboard)
+
+Dashboard là một giao diện người dùng dựa trên web, có mục đích chung quản lý cluster Kubernetes. Nó cho phép người dùng quản lý và khắc phục sự cố các ứng dụng đang chạy trong cụm, cũng như chính cụm đó.
+
+- Container Resource Monitoring
+
+Ghi lại các time-series metrics chung về các container trong central databas và cung cấp giao diện người dùng để duyệt dữ liệu đó.
+
+- Cluster-level Logging
+
+Lưu container logs vào central log store với giao diện search/browsing.
 
 <a name="suhoatdong"></a>
 ## 2. Sự hoạt động giữa các thành phần trong K8s
