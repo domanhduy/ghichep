@@ -1,4 +1,4 @@
-## Tổng quan về Kubernetes K8s
+# Tổng quan về Kubernetes K8s
 
 ### Mục lục
 
