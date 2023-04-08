@@ -59,7 +59,7 @@ Các thành phần chính trên master node bao gồm:
 - Controller manager (kube-controller-manager): Thực hiện các công tác điều khiển vòng lặp (control loop). Có rất nhiều thành phần điều khiển nhỏ hơn bên trong như Replication controller, Node controller, Endpoints controller... 
 
 ```
-+ Thành quản quản lý Kubernetes Cluster
++ Thành phần quản lý Kubernetes Cluster
 + Xử lý các yêu cầu người dùng hoặc ứng dụng khác, bảo đảm các tiến trình, service chạy trong Kubernetes chạy chính xác
 + Sử dụng Port 10252
 ```
@@ -110,9 +110,7 @@ Từ Worker node, thì kube-proxy và Kubelet gọi tới API server để báo 
 
 Bên trong Master node thì chỉ có API server mới có thể tương tác với etcd. 
 
-Có khi nào API server chủ động kết nối tới các Worker node không? Ở hình trên không có luồng mũi tên trỏ từ Master node sang Worker node, nhưng câu trả lời là có. 
-
-Có trường hợp Master node kết nối sang Worker node,k ết nối từ API server sang Worker node thực hiện khi gửi yêu cầu kết nối tới các container (khi lấy log ở các stdout, hay thực hiện truy cập vào console của container. API server sẽ kết nối tới Kubelet để thực hiện các truy cập vào container)
+Có trường hợp Master node kết nối sang Worker node, kết nối từ API server sang Worker node thực hiện khi gửi yêu cầu kết nối tới các container (khi lấy log ở các stdout, hay thực hiện truy cập vào console của container. API server sẽ kết nối tới Kubelet để thực hiện các truy cập vào container)
 
 <a name="k8sha"></a>
 ## 3. Kiến trúc Kubernetes HA
