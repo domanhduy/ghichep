@@ -76,6 +76,37 @@ Nếu node worker không đủ tài nguyên thì pod sẽ không được hoặc
 	+ Khi tạo container thành công kubelet sẽ cập nhật lại trạng thái Pod và gửi lại Master
 ```
 
+<a name="reps"></a>
+## 4. Replica Sets
+
+`ReplicateSet` được sử dụng để duy trì một tập replicate các Pod ổn định theo thời gian
+
+`ReplicateSet` quản lý Pod qua các label. Nếu thay đổi label của Pod, ReplicateSet sẽ không quản lý Pod đó nữa.
+
+ReplicateSet được sử dụng vì lý do Container hoặc Pod có vòng đời ngắn có thể bị lỗi khi tiến trình container gặp phải exception
+
+Việc sử dụng ReplicateSet sẽ bảo đảm khi có Pod bị ngắt (lỗi) sẽ có Pod khác được tạo ra thay thế
+Ngoài ra để Scale số lượng Pod, sẽ cấu hình tăng số nhân bản của Pod bằng ReplicateSet.
+
+Pod có thể tách biệt khỏi một ReplicaSet bằng cách thay đổi label của chúng để chúng không còn khớp với ReplicaSet’s selector nữa.
+
+ReplicaSets có thể bị xóa hoặc không xóa các dependent pods phụ thuộc của chúng.
+
+Bạn có thể dễ dàng điều khiển só lượng replicas (pods) mà ReplicaSet sẽ duy trì thông qua lệnh hoặc chính sửa ở ReplicaSet configuration
+
+Bạn có thể cấu hình ReplicaSet tự động thay đổi tỷ lệ tải CPU trên node.
+
+Bạn có thể đã đọc về ReplicationControllers trong tài liệu, bài báo hoặc sách Kubernetes cũ hơn. ReplicaSets là sự kế thừa của ReplicationControllers. Chúng được khuyến nghị sử dụng thay vì ReplicationControllers vì chúng cung cấp nhiều tính năng hơn.
+
+
+![](../images/4-khai-niem-quan-trong-k8s/Screenshot_29.png)
+
+
+
+
+
+
+
 ### Tham khảo
 
 - Pod 
@@ -83,7 +114,11 @@ Nếu node worker không đủ tài nguyên thì pod sẽ không được hoặc
 https://www.cnblogs.com/CloudMan6/p/8323420.html
 https://collabnix.github.io/kubelabs/pods101/deploy-your-first-nginx-pod.html
 
+- Replica Sets
 
+https://collabnix.github.io/kubelabs/replicaset101/#how-does-replicaset-manage-pods
+https://collabnix.github.io/kubelabs/SlidesReplicaSet101/ReplicaSet101.html
+https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 
 
 
