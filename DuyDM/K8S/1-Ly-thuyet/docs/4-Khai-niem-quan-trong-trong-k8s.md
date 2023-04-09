@@ -8,7 +8,7 @@
 [4. Replica Sets](#reps)<br>
 [5. Deployments](#dep)<br>
 [6. Services](#ser)<br>
-[7. Volumes(#vol)<br>
+[7. Volumes](#vol)<br>
 [8. Config Maps](#conf)<br>
 [9. Daemons](#deamon)<br>
 [10. Jobs](#job)<br>
@@ -98,13 +98,31 @@ Bạn có thể cấu hình ReplicaSet tự động thay đổi tỷ lệ tải 
 
 Bạn có thể đã đọc về ReplicationControllers trong tài liệu, bài báo hoặc sách Kubernetes cũ hơn. ReplicaSets là sự kế thừa của ReplicationControllers. Chúng được khuyến nghị sử dụng thay vì ReplicationControllers vì chúng cung cấp nhiều tính năng hơn.
 
+Một Kubernetes pod serves là một deployment unit cho cluster. Nó có thể chứa một hoặc nhiều container. Tuy nhiên, containers (cà theo đó là pods) là các thực thể toàn tại trong thời gian ngắn.
+
+Một yêu cầu khách là duy trì số lượng Pod đang chạy. Nếu có nhiều pod thì các pod sẽ bị chấm dứt. Tương tự, một hoặc nhiều pods failed các pod mới sẽ được kích hoạt cho đến khi đạt được số lượng mong muốn.
+
+Tài nguyên Kubernetes ReplicaSet được thiết kế để giải quyết cả hai yêu cầu đó. Nó tạo và duy trì một số lượng cụ thể các similar pods (replicas).
 
 ![](../images/4-khai-niem-quan-trong-k8s/Screenshot_29.png)
 
+Mục đích của ReplicaSet là duy trì một bộ các bản sao Pod ổn định tại bất kỳ thời diểm nào. Do đó nó thường được sử dụng để đảm bảo tính availability của một số lượng nhất định các pod giống nhau.
 
+Tuy nhiên, Deployment là một khái niệm cao cấp hơn quản lý ReplicaSet và cung cấp các bản updates cho Pod với nhiều tính năng hữu ích. Dó đó bạn có thể sử dụng Deployment thay vì ReplicaSet, trừ khi yêu cầu update orchestration hoặc require updates.
 
+**Replicaset Workflow**
 
+![](../images/4-khai-niem-quan-trong-k8s/Screenshot_30.png)
 
+**ReplicaSet quản lý các Pod như thế nào?**
+
+Để một ReplicaSet hoạt động, nó cần phải biết nó quản lý Pod nào để có thể khởi động lại pod bị lỗi hoặc loại bỏ các pod không cần thiết. Nó cũng yêu cầu hiểu cách tạo ra pod mới trong trường hợp cần spawn ra pod mới.
+
+Một ReplicaSet sử dụng các label để khớp với các pod mà nó sẽ quản lý. Nó cũng cần kiểm tra xem target pod đã được quản lý bởi controller khác chưa (chẳng hạn như Deployment hoặc ReplicaSet khác).
+
+Ví dụ: Nếu ta cần ReplicaSet quản lý tất cả các pod với label role=webserver, controller sẽ tìm kiếm bất kỳ pod nào có label đó. Nó cũng kiểm tra trường OwnerReferences trong metadata để xác định xem pod đã thuộc quyền sở hữu của controller khác hay chưa. Nếu không ReplicaSet sẽ bắt đầu kiểm soát nó.
+ 
+Sau đó , trường OwnerReferences của target pods sẽ cập nhật data của owner mới. 
 
 
 ### Tham khảo
