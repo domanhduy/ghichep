@@ -165,6 +165,32 @@ Kubernetes khởi động lại các containers bị lỗi, thay thế các cont
 
 Kubernetes cho phép lưu trữ và quản lý các thông tin nhạy cảm như: password, OAuth token và SSH key, có thể triển khai và cập nhật lại secret và cấu hình ứng dụng mà không cần build lại các container image và không để lộ secret trong cấu hình stack.
 
+**Một số phương pháp cài đặt**
+
+- Cài thủ công bằng tay theo docs của Kubernetes
+
+```
++ Làm tuần tự theo các bước step by step theo tài liệu của K8s
+
++ Cài tay sẽ tốn thời gian nhưng hiểu sâu được các bước bản chất bên trong.
+
++ Cài bằng tay bằng các lệnh hoặc biên dịch từ mã nguồn mà K8s cấp.
+```
+
+- Cài bằng các tools hỗ trợ
+
+Sử dụng `Minikube`
+
+```
++ Minikube có tương đối các thành phần để đảm bảo K8S hoạt động được.
++ Minikube thích hợp với việc thử nghiệm lab ban đầu và thường cài trên 1 máy chủ.
++ Minikube có thể chạy trên nhiều hệ điều hành khác nhau: Ubuntu 14.04, Ubuntu 16.04, Ubuntu 18.04, CentOS7.
+```
+
+Một số tools khác
+
+https://github.com/ramitsurana/awesome-kubernetes/blob/master/docs/installers/installers.md
+
 <a name="chuanbi"></a>
 ## 3. Chuẩn bị để tiếp cận K8s
 
@@ -175,6 +201,8 @@ Kubernetes cho phép lưu trữ và quản lý các thông tin nhạy cảm như
 - Có kiến thức nền tảng về docker, container
 
 - Tham khảo các kiến thức ở https://kubernetes.io/
+
+
 
 ### Tham khảo
 
