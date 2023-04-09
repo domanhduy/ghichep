@@ -4,6 +4,7 @@
 
 [1. Kubernetes là gì?](#k8s)<br>
 [2. Sự cần thiết của K8s](#canthiet)<br>
+[3. Chuẩn bị để tiếp cận K8s](#chuanbi)<br>
 
 <a name="k8s"></a>
 ## 1. Kubernetes là gì?
@@ -36,6 +37,36 @@ Sử dụng Docker để đóng gói ứng dụng vào chạy trong container, s
 Kubernetes cluster bao gồm nhiều node chạy ứng dụng production, trên mỗi node cài đặt Docker như một container runtime để thực hiện việc start, stop các container. Sau đó Kubernetes sẽ quyết định xem nên khởi tạo container hay tăng, giảm các container trên node nào.
 
 ![](../images/1-tong-quan-k8s/Kubernetes-cluster.png)
+
+
+**Các hệ sinh thái container**
+
+```
+- Các công nghệ core của container:
+
++ Đặc điểm của container
++ Container runtime
++ Công cụ quản lý container
++ Container tạo ra container
++ Registry
++ Container OS
+
+- Các công nghệ nền tảng:
+
++ Container Orchestration Tools: Docker swarm, Kubernetes, Mesos + marathon
++ Container management flatform: Rancher, ContainerShip
++ Các Paas dựa trên container: Deis, Flynn, Dokku 
+
+- Các công nghệ hỗ trợ docker 
+
++ Network
++ Service
++ Monitor
++ Log
++ Data
++ Security
+
+```
 
 Tóm gọn:
 
@@ -134,6 +165,16 @@ Kubernetes khởi động lại các containers bị lỗi, thay thế các cont
 
 Kubernetes cho phép lưu trữ và quản lý các thông tin nhạy cảm như: password, OAuth token và SSH key, có thể triển khai và cập nhật lại secret và cấu hình ứng dụng mà không cần build lại các container image và không để lộ secret trong cấu hình stack.
 
+<a name="chuanbi"></a>
+## 3. Chuẩn bị để tiếp cận K8s
+
+- Tiếp cận lý thuyết trước để nắm các khái niệm, mô hình, kiến trúc, các thành phần.
+
+- Có kỹ năng về Linux, network
+
+- Có kiến thức nền tảng về docker, container
+
+- Tham khảo các kiến thức ở https://kubernetes.io/
 
 ### Tham khảo
 
