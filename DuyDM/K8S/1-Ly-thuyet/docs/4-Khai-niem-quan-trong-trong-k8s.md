@@ -125,6 +125,11 @@ Ví dụ: Nếu ta cần ReplicaSet quản lý tất cả các pod với label r
 Sau đó , trường OwnerReferences của target pods sẽ cập nhật data của owner mới. 
 
 
+<a name="dep"></a>
+## 5. Deployments
+
+
+
 ### Tham khảo
 
 - Pod 
